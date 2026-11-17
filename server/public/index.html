@@ -1,0 +1,48 @@
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Masuk - SIAGA BANJIR</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%232563eb'/%3E%3Cpath d='M32 12s14 15 14 26a14 14 0 0 1-28 0c0-11 14-26 14-26z' fill='white'/%3E%3C/svg%3E">
+<style>
+:root{--wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 46' preserveAspectRatio='none'%3E%3Cpath d='M0 23 C75 46 150 0 225 23 S375 46 450 23 S562 0 600 23 V46 H0Z' fill='white' fill-opacity='.13'/%3E%3C/svg%3E");--bg:#0a1220;--panel:#121e35;--line:#23365c;--text:#e9eefb;--muted:#92a3c4;--brand:#4f8cff;--brand2:#6c63ff;--bad:#ef4444}
+@media(prefers-color-scheme:light){:root{--bg:#eef2f8;--panel:#fff;--line:#d8e0ee;--text:#14203a;--muted:#5d6e8f;--brand:#2563eb;--brand2:#4f46e5}}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:20px;font:15px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:linear-gradient(rgba(6,12,28,.55),rgba(6,12,28,.7)),radial-gradient(900px 500px at 80% -10%,color-mix(in srgb,var(--brand) 38%,transparent),transparent),linear-gradient(160deg,#0b2a66,#0a1220 70%);color:var(--text)}
+body:before{content:"";position:fixed;left:0;right:0;bottom:0;height:70px;background:var(--wave) repeat-x;background-size:600px 70px;animation:wv 16s linear infinite;pointer-events:none}@keyframes wv{to{background-position-x:600px}}@media(prefers-reduced-motion:reduce){body:before{animation:none}}
+.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.card{position:relative;width:100%;max-width:400px;background:color-mix(in srgb,var(--panel) 90%,transparent);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:20px;padding:32px 28px;box-shadow:0 24px 60px rgba(0,0,0,.28)}
+.logo{width:52px;height:52px;border-radius:15px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--brand),var(--brand2));margin-bottom:18px}.logo .i{width:26px;height:26px}
+h1{margin:0 0 4px;font-size:22px;letter-spacing:.2px}p{margin:0 0 22px;color:var(--muted)}
+label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+.pw{position:relative}.pw input{width:100%;padding:12px 44px 12px 14px;border-radius:12px;border:1px solid var(--line);background:color-mix(in srgb,var(--text) 5%,transparent);color:var(--text);font:inherit}
+.pw input:focus{outline:2px solid var(--brand);border-color:transparent}
+.eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:0;color:var(--muted);padding:8px;cursor:pointer;border-radius:8px}.eye:hover{color:var(--text)}
+#go{width:100%;margin-top:16px;padding:12px;border:0;border-radius:12px;font:inherit;font-weight:600;color:#fff;cursor:pointer;display:flex;gap:8px;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--brand),var(--brand2))}
+#go:disabled{opacity:.6;cursor:wait}#err{min-height:20px;margin-top:12px;font-size:13px;color:var(--bad);display:flex;gap:6px;align-items:center}
+.foot{margin-top:18px;font-size:12.5px;color:var(--muted);display:flex;gap:8px;align-items:center}
+</style></head><body>
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="drop" viewBox="0 0 24 24"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></symbol>
+<symbol id="eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="eyeoff" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></symbol>
+<symbol id="lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+<symbol id="alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5v.01"/></symbol>
+<symbol id="enter" viewBox="0 0 24 24"><path d="M15 4h4v16h-4M10 8l4 4-4 4M14 12H4"/></symbol>
+<symbol id="shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+</defs></svg>
+<div class="card">
+<div class="logo"><svg class="i"><use href="#drop"/></svg></div>
+<h1>SIAGA BANJIR</h1><p>Panel admin. Masuk untuk memantau dan mengatur sistem.</p>
+<form id="f" autocomplete="on"><label for="pw">Kata sandi admin</label>
+<div class="pw"><input id="pw" type="password" autocomplete="current-password" autofocus required><button type="button" class="eye" id="eye" aria-label="Tampilkan kata sandi"><svg class="i"><use id="eu" href="#eye"/></svg></button></div>
+<div id="err" role="alert"></div>
+<button id="go" type="submit"><svg class="i"><use href="#enter"/></svg><span>Masuk</span></button></form>
+<details style="margin-top:14px;font-size:13px;color:var(--muted)"><summary style="cursor:pointer">Lupa kata sandi?</summary><p style="margin:8px 0 0">Hentikan server (Ctrl+C), lalu jalankan <code>node server/server.js --reset-admin</code>. Kata sandi baru tampil di terminal dan data tidak dihapus.</p></details>
+<div class="foot"><svg class="i" style="width:16px;height:16px"><use href="#shield"/></svg>Khusus pengelola. Warga memantau lewat WhatsApp.</div>
+</div>
+<script>
+const $=s=>document.querySelector(s);
+$('#eye').onclick=()=>{const p=$('#pw'),s=p.type==='password';p.type=s?'text':'password';$('#eu').setAttribute('href',s?'#eyeoff':'#eye')};
+$('#f').onsubmit=async e=>{e.preventDefault();const b=$('#go');b.disabled=true;$('#err').textContent='';
+ try{const r=await fetch('/api/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:$('#pw').value})}),j=await r.json();
+  if(j.ok){location.replace('/admin');return}
+  $('#err').innerHTML='<svg class="i" style="width:16px;height:16px"><use href="#alert"/></svg>';$('#err').append(j.error||'Gagal masuk');$('#pw').select()}
+ catch(x){$('#err').textContent='Tidak dapat menghubungi server.'}
+ b.disabled=false};
+</script></body></html>
