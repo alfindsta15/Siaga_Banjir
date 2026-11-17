@@ -1,4 +1,4 @@
-<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Masuk - SIAGA BANJIR</title>
+﻿<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Masuk - SIAGA BANJIR</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%232563eb'/%3E%3Cpath d='M32 12s14 15 14 26a14 14 0 0 1-28 0c0-11 14-26 14-26z' fill='white'/%3E%3C/svg%3E">
 <style>
 :root{--wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 46' preserveAspectRatio='none'%3E%3Cpath d='M0 23 C75 46 150 0 225 23 S375 46 450 23 S562 0 600 23 V46 H0Z' fill='white' fill-opacity='.13'/%3E%3C/svg%3E");--bg:#0a1220;--panel:#121e35;--line:#23365c;--text:#e9eefb;--muted:#92a3c4;--brand:#4f8cff;--brand2:#6c63ff;--bad:#ef4444}
@@ -41,8 +41,9 @@ const $=s=>document.querySelector(s);
 $('#eye').onclick=()=>{const p=$('#pw'),s=p.type==='password';p.type=s?'text':'password';$('#eu').setAttribute('href',s?'#eyeoff':'#eye')};
 $('#f').onsubmit=async e=>{e.preventDefault();const b=$('#go');b.disabled=true;$('#err').textContent='';
  try{const r=await fetch('/api/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:$('#pw').value})}),j=await r.json();
-  if(j.ok){location.replace('/admin');return}
+  if(j.ok){location.replace('/admin.html');return}
   $('#err').innerHTML='<svg class="i" style="width:16px;height:16px"><use href="#alert"/></svg>';$('#err').append(j.error||'Gagal masuk');$('#pw').select()}
  catch(x){$('#err').textContent='Tidak dapat menghubungi server.'}
  b.disabled=false};
 </script></body></html>
+
