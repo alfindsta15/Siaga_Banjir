@@ -1,15 +1,10 @@
 ﻿{
-  "version": 2,
-  "builds": [
-    {
-      "src": "server/public/**",
-      "use": "@vercel/static"
-    }
-  ],
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "outputDirectory": "server/public",
   "rewrites": [
     {
-      "source": "/api/(.*)",
-      "destination": "https://siaga-banjir-api.ketupatbot.workers.dev/api/$1"
+      "source": "/api/:path*",
+      "destination": "https://siaga-banjir-api.ketupatbot.workers.dev/api/:path*"
     },
     {
       "source": "/healthz",
