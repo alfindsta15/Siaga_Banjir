@@ -1,0 +1,8 @@
+# Cloudflare Tunnel bernama (alamat tetap, tanpa membuka port). Simpan di ~/.cloudflared/config.yml
+# Langkah ada di docs/ONLINE.md. Ganti UUID, path kredensial, dan domain.
+tunnel: GANTI-DENGAN-UUID-TUNNEL
+credentials-file: /home/siaga/.cloudflared/GANTI-DENGAN-UUID-TUNNEL.json
+ingress:
+  - hostname: siaga.contohdesa.id
+    service: http://localhost:3001
+  - service: http_status:404

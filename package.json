@@ -1,0 +1,22 @@
+{
+  "name": "siaga-banjir",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node server/server.js",
+    "simulasi": "node tools/simulasi.js",
+    "test": "node tools/uji.js",
+    "uji:dashboard": "node tools/uji_dashboard.js",
+    "uji:keamanan": "node tools/uji_keamanan.js",
+    "uji:maket": "node tools/uji_maket.js",
+    "uji:mqtt": "node tools/uji_mqtt.js",
+    "broker:uji": "node tools/stub/mqtt-broker-mini.js"
+  },
+  "optionalDependencies": {
+    "@whiskeysockets/baileys": "7.0.0-rc14",
+    "qrcode": "1.5.4"
+  }
+}

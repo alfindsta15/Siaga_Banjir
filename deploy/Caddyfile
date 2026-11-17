@@ -1,0 +1,6 @@
+# VPS: Caddy mengurus sertifikat HTTPS otomatis. Ganti alamatnya dengan domain Anda
+# (DNS A/AAAA domain harus mengarah ke IP VPS). Jalankan server dengan TRUST_PROXY=1.
+siaga.contohdesa.id {
+	encode gzip
+	reverse_proxy 127.0.0.1:3001
+}

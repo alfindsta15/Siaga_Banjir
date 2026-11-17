@@ -1,0 +1,13 @@
+server/data.json
+server/data.json.tmp
+server/secret.key
+firmware/siaga_node/config.h
+tools/hasil-uji/
+node_modules/
+server/wa-session/
+firmware/desa_siaga_banjir/konfigurasi.h
+
+# File rahasia dan konfigurasi lokal
+.env
+.env.*
+!.env.example

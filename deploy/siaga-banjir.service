@@ -1,0 +1,25 @@
+# Layanan systemd: server hidup sendiri saat komputer menyala dan dihidupkan ulang bila mati.
+# Pasang:  sudo cp deploy/siaga-banjir.service /etc/systemd/system/
+#          sudo cp deploy/siaga-banjir.env.contoh /etc/siaga-banjir.env   (lalu isi, chmod 600)
+#          sudo systemctl daemon-reload && sudo systemctl enable --now siaga-banjir
+# Lihat log: journalctl -u siaga-banjir -f
+[Unit]
+Description=SIAGA BANJIR server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+# Ganti User dan path sesuai komputer Anda
+User=siaga
+WorkingDirectory=/opt/siaga-banjir
+EnvironmentFile=/etc/siaga-banjir.env
+ExecStart=/usr/bin/node /opt/siaga-banjir/server/server.js
+Restart=always
+RestartSec=5
+# Pembatasan keamanan dasar
+NoNewPrivileges=true
+ProtectSystem=full
+ReadWritePaths=/var/lib/siaga-banjir
+
+[Install]
+WantedBy=multi-user.target

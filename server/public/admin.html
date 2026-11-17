@@ -1,0 +1,500 @@
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SIAGA BANJIR - Admin</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%232563eb'/%3E%3Cpath d='M32 12s14 15 14 26a14 14 0 0 1-28 0c0-11 14-26 14-26z' fill='white'/%3E%3C/svg%3E">
+<style>
+:root{--wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 46' preserveAspectRatio='none'%3E%3Cpath d='M0 23 C75 46 150 0 225 23 S375 46 450 23 S562 0 600 23 V46 H0Z' fill='white' fill-opacity='.13'/%3E%3C/svg%3E");--bg:#0a1220;--bg2:#0f1a2e;--panel:#121e35;--panel2:#18274a;--line:#23365c;--text:#e9eefb;--muted:#92a3c4;--brand:#4f8cff;--brand2:#6c63ff;--ok:#22c55e;--warn:#eab308;--org:#f97316;--bad:#ef4444;--lc:#22c55e}
+@media(prefers-color-scheme:light){:root{--bg:#eef2f8;--bg2:#e6ecf6;--panel:#fff;--panel2:#f3f6fb;--line:#d8e0ee;--text:#14203a;--muted:#5d6e8f;--brand:#2563eb;--brand2:#4f46e5}}
+*{box-sizing:border-box}html,body{margin:0}body{font:14.5px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
+.i{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+h1,h2,h3,p{margin:0}small{color:var(--muted);font-size:12.5px;display:block}.m{color:var(--muted)}code{background:var(--panel2);padding:1px 6px;border-radius:6px;font-size:12.5px}
+.app{display:grid;grid-template-columns:244px minmax(0,1fr);min-height:100vh}
+.side{position:sticky;top:0;height:100vh;padding:20px 14px;background:linear-gradient(180deg,var(--panel),var(--bg2));border-right:1px solid var(--line);display:flex;flex-direction:column;gap:4px}
+.brand{display:flex;gap:12px;align-items:center;padding:2px 8px 18px}.logo{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--brand),var(--brand2))}.logo .i{width:22px;height:22px}
+.brand b{display:block;letter-spacing:.3px}
+#nav{display:flex;flex-direction:column;gap:3px}#nav button{display:flex;gap:12px;align-items:center;width:100%;padding:11px 12px;border:0;border-radius:11px;background:none;color:var(--muted);font:inherit;font-weight:500;cursor:pointer;text-align:left}
+#nav button:hover{background:var(--panel2);color:var(--text)}#nav button.on{background:color-mix(in srgb,var(--brand) 18%,transparent);color:var(--text);box-shadow:inset 3px 0 var(--brand)}
+.sfoot{margin-top:auto;display:flex;flex-direction:column;gap:10px}.conn{display:flex;gap:8px;align-items:center;font-size:13px;padding:9px 12px;border-radius:11px;background:var(--panel2);border:1px solid var(--line)}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--muted);display:inline-block;flex:none}
+.main{min-width:0}.top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;padding:26px 28px 6px}.top h1{font-size:24px}.top p{color:var(--muted);margin-top:2px}
+.clock{color:var(--muted);font-variant-numeric:tabular-nums;display:flex;gap:6px;align-items:center}
+.content{padding:16px 28px 96px;max-width:1120px}.pg{display:none}.pg.on{display:block}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px}
+.card-h{display:flex;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap}.card-h>div:not(.pills):not(.row){min-width:0;flex:1 1 180px}.card-h h2{font-size:16px}.card-h p{color:var(--muted);font-size:13px}.card-h .badge{margin-left:auto}
+.ico{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex:none;color:var(--brand);background:color-mix(in srgb,var(--brand) 15%,transparent)}
+.btn{display:inline-flex;gap:8px;align-items:center;justify-content:center;border:0;border-radius:11px;padding:9px 15px;font:inherit;font-weight:600;color:#fff;cursor:pointer;background:linear-gradient(135deg,var(--brand),var(--brand2))}
+.btn:hover{filter:brightness(1.08)}.btn:disabled{opacity:.55;cursor:wait}.btn.ghost{background:var(--panel2);color:var(--text);border:1px solid var(--line)}.btn.sm{padding:6px 11px;font-size:13px}.btn.bad{background:var(--bad)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.fd label{display:flex;gap:7px;align-items:center;font-size:13px;color:var(--muted);margin-bottom:6px}.fd small{margin-top:5px}
+input[type=text],input[type=number],input[type=password],input[type=time],select,textarea{width:100%;padding:10px 12px;border-radius:11px;border:1px solid var(--line);background:var(--panel2);color:var(--text);font:inherit}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--brand);border-color:transparent}.inl{display:flex;gap:8px}
+.sw{display:flex;gap:12px;align-items:flex-start;cursor:pointer;margin:2px 0 14px}.sw input{position:absolute;opacity:0}.sw i{width:40px;height:23px;border-radius:99px;background:var(--line);position:relative;flex:none;margin-top:1px;transition:.2s}
+.sw i:after{content:"";position:absolute;left:3px;top:3px;width:17px;height:17px;border-radius:50%;background:#fff;transition:.2s}.sw input:checked+i{background:var(--ok)}.sw input:checked+i:after{left:20px}.sw input:focus-visible+i{outline:2px solid var(--brand)}
+.sw b{font-weight:600;display:block}
+.badge{display:inline-flex;gap:6px;align-items:center;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:600;background:var(--panel2);border:1px solid var(--line);color:var(--muted)}
+.hero{display:grid;grid-template-columns:150px minmax(0,1fr) minmax(0,1.25fr);gap:22px;align-items:center;border-left:4px solid var(--lc)}
+.lvp{display:inline-flex;gap:9px;align-items:center;padding:5px 14px;border-radius:99px;font-weight:700;letter-spacing:.5px;color:var(--lc);background:color-mix(in srgb,var(--lc) 14%,transparent)}.lvp .dot{background:var(--lc)}
+.big{font-size:42px;font-weight:700;line-height:1.1;margin:12px 0 4px;font-variant-numeric:tabular-nums}.tr{display:flex;gap:6px;align-items:center;color:var(--muted)}.tr .dn{transform:rotate(180deg)}
+.kg{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:10px}.k{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:11px 12px}.k span{display:flex;gap:6px;align-items:center;color:var(--muted);font-size:12px}.k b{display:block;font-size:17px;margin-top:3px}
+.pills{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}.pill{border:1px solid var(--line);background:var(--panel2);color:var(--muted);border-radius:99px;padding:3px 12px;font:inherit;font-size:12.5px;cursor:pointer}.pill.on{background:var(--brand);border-color:var(--brand);color:#fff}
+table{width:100%;border-collapse:collapse;font-size:13px}td{padding:9px 8px;border-top:1px solid var(--line);vertical-align:top}td:first-child{white-space:nowrap;color:var(--muted)}
+.tag{padding:2px 9px;border-radius:99px;font-size:11.5px;font-weight:600;background:var(--panel2);border:1px solid var(--line)}
+.bar{height:6px;border-radius:9px;background:var(--panel2);overflow:hidden;margin-bottom:12px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--brand2));width:0;transition:.4s}
+.st{display:flex;gap:12px;align-items:center;padding:11px 0;border-top:1px solid var(--line)}.st .c{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;flex:none;background:var(--panel2);border:1px solid var(--line);color:var(--muted)}
+.st.done .c{background:var(--ok);border-color:var(--ok);color:#fff}.st>div:nth-child(2){flex:1;min-width:0}.st b{display:block}
+.chk{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-top:1px solid var(--line)}.chk:first-child{border-top:0}.chk .c{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;flex:none;color:#fff;background:var(--muted)}.chk .c.ok{background:var(--ok)}.chk .c.wn{background:var(--warn)}.chk .c.er{background:var(--bad)}
+.preset{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}.pre{text-align:left;padding:14px;border-radius:13px;border:1px solid var(--line);background:var(--panel2);color:var(--text);font:inherit;cursor:pointer;display:flex;gap:12px;align-items:flex-start}
+.pre:hover{border-color:var(--brand)}.pre b{display:block}.pre small{margin-top:2px}
+details.card>summary,details.dd>summary{cursor:pointer;font-weight:600;display:flex;gap:10px;align-items:center;list-style:none}details>summary::-webkit-details-marker{display:none}details[open]>summary .chev{transform:rotate(180deg)}.chev{margin-left:auto;transition:.2s}
+details.card[open]>summary{margin-bottom:16px}details.dd{border:1px solid var(--line);border-radius:13px;padding:12px 14px;margin:10px 0;background:var(--panel2)}details.dd[open]>summary{margin-bottom:10px}details.dd ol,details.dd ul{margin:0;padding-left:20px}details.dd li{margin:4px 0}
+pre{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:14px;overflow:auto;font-size:12.5px;margin:10px 0;white-space:pre-wrap;word-break:break-word}
+.bub{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:12px 14px;max-width:420px;line-height:1.55}.bub .dot{margin-right:7px}
+.out{margin-top:12px;padding:12px 14px;border-radius:12px;background:var(--panel2);border:1px solid var(--line);display:none}.out.on{display:block}
+.glist .st:first-child{border-top:0}
+.savebar{position:fixed;left:244px;right:0;bottom:0;padding:12px 28px;display:flex;gap:12px;align-items:center;justify-content:space-between;background:color-mix(in srgb,var(--panel) 92%,transparent);backdrop-filter:blur(8px);border-top:1px solid var(--line);z-index:20}
+.savebar[hidden]{display:none}.savebar span{display:flex;gap:8px;align-items:center}
+#toast{position:fixed;right:18px;top:18px;display:flex;flex-direction:column;gap:8px;z-index:50}.toast{display:flex;gap:10px;align-items:center;padding:11px 16px;border-radius:12px;background:var(--panel);border:1px solid var(--line);box-shadow:0 10px 30px rgba(0,0,0,.3);animation:in .25s}.toast.ok .i{color:var(--ok)}.toast.er .i{color:var(--bad)}@keyframes in{from{transform:translateY(-8px);opacity:0}}
+svg.ch{width:100%;height:auto;display:block}[hidden]{display:none!important}a.btn{text-decoration:none}
+.banner{position:relative;overflow:hidden;border-radius:20px;margin-bottom:16px;min-height:104px;display:flex;align-items:flex-end;padding:18px 22px 22px;color:#fff;border:1px solid var(--line);
+ background:linear-gradient(100deg,rgba(6,18,46,.82),rgba(6,18,46,.28)),linear-gradient(120deg,#0b3a8f,#1d5fd0 55%,#2f9bf0)}
+.banner.tall{min-height:176px;background:linear-gradient(100deg,rgba(6,18,46,.82),rgba(6,18,46,.22)),linear-gradient(120deg,#0b3a8f,#1d5fd0 55%,#2f9bf0)}
+.banner:before{content:"";position:absolute;left:0;right:0;bottom:0;height:46px;background:var(--wave) repeat-x;background-size:600px 46px;animation:wv 14s linear infinite;pointer-events:none}
+.banner:after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--lc)}
+@keyframes wv{to{background-position-x:600px}}@media(prefers-reduced-motion:reduce){.banner:before{animation:none}}
+.bn-in{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap;width:100%}.bn-in h2{font-size:22px;text-shadow:0 1px 8px rgba(0,0,0,.35)}.bn-in small,.bn-in p{color:rgba(255,255,255,.82)}
+.bn-r{display:flex;gap:12px;align-items:center}.bn-r b{font-size:30px;font-variant-numeric:tabular-nums;text-shadow:0 1px 8px rgba(0,0,0,.35)}.banner .lvp{background:rgba(255,255,255,.17);color:#fff;backdrop-filter:blur(6px)}.banner .lvp .dot{background:var(--lc);box-shadow:0 0 0 3px rgba(255,255,255,.25)}
+.wzs{display:flex;gap:10px;align-items:center;font-weight:600;margin:20px 0 10px}.wzs b{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--brand);color:#fff;font-size:13px;flex:none}
+.dvg{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}.dvc{text-align:left;padding:0;border:2px solid var(--line);border-radius:16px;background:var(--panel2);color:var(--text);font:inherit;cursor:pointer;overflow:hidden}.dvc.on{border-color:var(--brand);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 22%,transparent)}
+.dvimg{height:128px;position:relative;background-size:cover;background-position:center}.dvc[data-dv=sungai] .dvimg{background-image:linear-gradient(135deg,#0b3a8f,#2a7be4 60%,#4cc3ff)}.dvc[data-dv=maket] .dvimg{background-image:linear-gradient(135deg,#4b2a9a,#6c63ff 55%,#8ec5ff)}
+.dvimg .ico{position:absolute;left:10px;top:10px;background:rgba(255,255,255,.22);color:#fff}.dvt{padding:12px 14px}.dvt b{display:block}.dvt small{margin-top:2px}
+.note{display:flex;gap:8px;align-items:flex-start;padding:9px 12px;border-radius:11px;background:var(--panel2);border:1px solid var(--line);font-size:13px;margin-top:8px}.note.wn{border-color:var(--warn)}.note.er{border-color:var(--bad)}.note.ok{border-color:var(--ok)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.qrbox{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin:12px 0;padding:14px;border-radius:14px;background:var(--panel2);border:1px solid var(--line)}.qrbox img{width:220px;height:220px;background:#fff;border-radius:10px;padding:6px;image-rendering:pixelated}.qrbox>div{flex:1 1 220px}
+.irow{display:flex;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--line);flex-wrap:wrap}.irow:first-child{border-top:0}.irow>div{flex:1 1 220px;min-width:0}
+.tplb textarea{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;line-height:1.5}.tpv{white-space:pre-wrap;margin:8px 0 10px}.phs{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 16px}.phs button{font-family:ui-monospace,Menlo,Consolas,monospace}
+.hlg{display:flex;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:12.5px;margin:6px 0 14px}.hlg i{display:inline-block;width:18px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}.hlg i.bd{height:10px;opacity:.3}
+@media(max-width:900px){.hero{grid-template-columns:130px 1fr}.hero .kg{grid-column:1/-1}}
+@media(max-width:820px){.app{grid-template-columns:1fr}.side{position:fixed;top:auto;bottom:0;left:0;right:0;height:auto;flex-direction:row;padding:6px;z-index:30;border-right:0;border-top:1px solid var(--line)}.brand,.sfoot .conn{display:none}
+#nav{flex-direction:row;flex:1;min-width:0}#nav button{flex-direction:column;gap:3px;padding:7px 2px;font-size:11px;justify-content:center;text-align:center;min-width:0}#nav button span{max-width:100%;overflow:hidden;text-overflow:ellipsis}.sfoot{margin:0;flex:none}.sfoot .btn span{display:none}.sfoot .btn{padding:10px}@media(max-width:400px){#nav button{font-size:10px}}
+.top{padding:18px 16px 4px}.content{padding:12px 16px 150px}.savebar{left:0;bottom:62px;padding:10px 14px}.hero{grid-template-columns:1fr}.big{font-size:36px}}
+.wfi{display:flex;justify-content:space-between;gap:10px;width:100%;text-align:left;padding:10px 12px;margin:4px 0;border:1px solid var(--line);border-radius:10px;background:var(--panel2);color:var(--text);cursor:pointer;font:inherit}.wfi:hover,.wfi:focus-visible{border-color:var(--brand)}.wfi span{color:var(--muted);font-size:13px;white-space:nowrap}.srow{display:grid;gap:2px;padding:10px 0;border-top:1px solid var(--line)}.srow:first-child{border-top:0}.srow small{color:var(--muted)}</style></head><body>
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></symbol>
+<symbol id="i-dash" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></symbol>
+<symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="2.3"/><circle cx="15" cy="17" r="2.3"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+<symbol id="i-wifi" viewBox="0 0 24 24"><path d="M5 12.5a10 10 0 0 1 14 0M8.5 16a5.5 5.5 0 0 1 7 0"/><path d="M2 9a14 14 0 0 1 20 0"/><path d="M12 20h.01"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+<symbol id="i-cpu" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 20l1-4.5A8 8 0 1 1 21 12z"/></symbol>
+<symbol id="i-bot" viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="11" rx="3"/><circle cx="9" cy="13.5" r="1.2"/><circle cx="15" cy="13.5" r="1.2"/><path d="M12 8V5"/><circle cx="12" cy="3.7" r="1"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3.5L2.5 20h19L12 3.5z"/><path d="M12 10v4M12 17.3v.01"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.8v.01"/></symbol>
+<symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 4H5v16h4M16 8l4 4-4 4M20 12H9"/></symbol>
+<symbol id="i-power" viewBox="0 0 24 24"><path d="M12 3v8M6.3 6.3a8 8 0 1 0 11.4 0"/></symbol>
+<symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z"/></symbol>
+<symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></symbol>
+<symbol id="i-save" viewBox="0 0 24 24"><path d="M5 3h11l3 3v15H5z"/><path d="M8 3v6h8V3M8 21v-7h8v7"/></symbol>
+<symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></symbol>
+<symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></symbol>
+<symbol id="i-send" viewBox="0 0 24 24"><path d="M21 3L3 11l7 3 3 7z"/><path d="M10 14l11-11"/></symbol>
+<symbol id="i-act" viewBox="0 0 24 24"><path d="M3 12h4l3-8 4 16 3-8h4"/></symbol>
+<symbol id="i-gauge" viewBox="0 0 24 24"><path d="M4 17a8 8 0 1 1 16 0"/><path d="M12 17l4-5"/></symbol>
+<symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M16 7l3 3"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2V5z"/><path d="M4 19a2 2 0 0 1 2-2h13"/></symbol>
+<symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-1.8 6"/><path d="M20 4v7h-7"/></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+<symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></symbol>
+<symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+<symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></symbol>
+<symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></symbol>
+<symbol id="i-wave" viewBox="0 0 24 24"><path d="M2 8c3 0 3 2 5 2s2-2 5-2 3 2 5 2 2-2 5-2M2 14c3 0 3 2 5 2s2-2 5-2 3 2 5 2 2-2 5-2"/></symbol>
+<symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4h12l-2 4 2 4H5"/></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+</defs></svg>
+
+<div class="app">
+<aside class="side">
+ <div class="brand"><div class="logo"><svg class="i"><use href="#i-drop"/></svg></div><div><b>SIAGA BANJIR</b><small>Panel admin</small></div></div>
+ <nav id="nav">
+  <button data-p="mon" class="on"><svg class="i"><use href="#i-dash"/></svg><span>Ringkasan</span></button>
+  <button data-p="rir"><svg class="i"><use href="#i-act"/></svg><span>Riwayat</span></button>
+  <button data-p="kal"><svg class="i"><use href="#i-sliders"/></svg><span>Kalibrasi</span></button>
+  <button data-p="not"><svg class="i"><use href="#i-bell"/></svg><span>Notifikasi</span></button>
+  <button data-p="kon"><svg class="i"><use href="#i-wifi"/></svg><span>Koneksi</span></button>
+  <button data-p="sec"><svg class="i"><use href="#i-shield"/></svg><span>Keamanan</span></button>
+ </nav>
+ <div class="sfoot"><div class="conn" id="cn"><i class="dot"></i><span>Memuat...</span></div><button class="btn ghost" id="lo"><svg class="i"><use href="#i-logout"/></svg><span>Keluar</span></button></div>
+</aside>
+<div class="main">
+<header class="top"><div><h1 id="ttl">Ringkasan</h1><p id="sub"></p></div><div class="clock"><svg class="i"><use href="#i-clock"/></svg><span id="clk"></span></div></header>
+<div class="content">
+<div class="banner tall" id="bn"><div class="bn-in"><div><small>Titik pantau</small><h2 id="bnl">-</h2><p id="bnd"></p></div><div class="bn-r"><span class="lvp"><i class="dot"></i><span id="bnlv">-</span></span><b id="bnh">- cm</b></div></div></div>
+
+<section class="pg on" id="p_mon">
+ <div class="card" id="setup" hidden><div class="card-h"><span class="ico"><svg class="i"><use href="#i-flag"/></svg></span><div><h2>Persiapan awal</h2><p>Empat langkah singkat. Pengaturan lain sudah punya nilai bawaan.</p></div><span class="badge" id="sp">0/4</span></div><div class="bar"><i id="sbar"></i></div><div id="steps"></div><div class="row" style="margin-top:10px"><button class="btn ghost sm" id="shide">Sembunyikan panduan</button></div></div>
+ <div class="card hero" id="hero">
+  <svg id="tk" viewBox="0 0 150 230" width="150" aria-label="Tinggi air"></svg>
+  <div><span class="lvp"><i class="dot"></i><span id="lv">-</span></span><div class="big" id="hh">-</div><div class="tr" id="tr"></div><p class="m" id="lact" style="margin-top:8px"></p></div>
+  <div class="kg">
+   <div class="k"><span><svg class="i"><use href="#i-act"/></svg>Kecepatan</span><b id="k2">-</b></div>
+   <div class="k"><span><svg class="i"><use href="#i-gauge"/></svg>Jarak sensor</span><b id="k3">-</b></div>
+   <div class="k"><span><svg class="i"><use href="#i-wifi"/></svg>Sinyal alat</span><b id="k4">-</b></div>
+   <div class="k"><span><svg class="i"><use href="#i-clock"/></svg>Data terakhir</span><b id="k5">-</b></div>
+   <div class="k"><span><svg class="i"><use href="#i-power"/></svg>Nyala alat</span><b id="k6">-</b></div>
+   <div class="k"><span><svg class="i"><use href="#i-cpu"/></svg>Alat</span><b id="k7" style="font-size:14px">-</b></div>
+  </div>
+ </div>
+ <details class="card" id="pumpc"><summary><span class="ico"><svg class="i"><use href="#i-wave"/></svg></span>Demo maket: isi air sampai target <small>klik untuk membuka, aman diabaikan bila tidak sedang demo</small><svg class="i chev"><use href="#i-chev"/></svg></summary><p class="m" id="pst" style="margin-top:0">-</p><div class="row" style="margin:6px 0"><button class="btn" id="pon"><svg class="i"><use href="#i-play"/></svg>Nyalakan</button><button class="btn ghost" id="poff"><svg class="i"><use href="#i-stop"/></svg>Matikan</button></div><div class="row" style="margin-top:4px"><span class="m">Isi sampai</span><input type="number" id="ptc" min="5" max="130" step="1" value="90" style="max-width:96px" aria-label="Target tinggi air nyata (cm)"><span class="m">cm nyata</span><button class="btn" id="ptg"><svg class="i"><use href="#i-play"/></svg>Isi sampai target</button><span class="pills" style="margin-left:0"><button type="button" class="pill" data-pl="1">WASPADA</button><button type="button" class="pill" data-pl="2">SIAGA</button><button type="button" class="pill" data-pl="3">AWAS</button></span></div><p class="m" id="pter" role="status"></p><p class="m"><b>Isi sampai target:</b> pompa berhenti sendiri di tinggi itu (maksimum 130 cm nyata = 6,5 cm maket). Tidak ada pompa buang, jadi <b>kosongkan wadah dengan tangan setelah demo</b>; pompa tidak akan mengisi lagi sebelum Anda memberi perintah baru. <b>Nyalakan</b> (manual) berhenti otomatis setelah 120 detik. Alat punya pengaman sendiri: batas tinggi, batas waktu, air tidak naik, sensor gagal, dan koneksi putus.</p></details>
+ <div class="card"><div class="card-h"><span class="ico"><svg class="i"><use href="#i-act"/></svg></span><h2>Grafik tinggi air</h2><div class="pills" id="rg"><button class="pill" data-r="60">60</button><button class="pill on" data-r="150">150</button><button class="pill" data-r="300">300</button></div><button class="btn ghost sm" data-go="rir" style="margin-left:10px">Riwayat lengkap</button></div><svg class="ch" id="ch" viewBox="0 0 720 240"></svg></div>
+ <div class="card"><div class="card-h"><span class="ico"><svg class="i"><use href="#i-list"/></svg></span><h2>Catatan kejadian</h2></div><table id="ev"></table></div>
+</section>
+
+<section class="pg" id="p_rir">
+ <div class="card"><div class="card-h"><span class="ico"><svg class="i"><use href="#i-act"/></svg></span><div><h2>Riwayat ketinggian air</h2><p>Tinggi air nyata (cm) dari bacaan alat. Arahkan kursor atau sentuh grafik untuk melihat nilai.</p></div>
+  <div class="pills" id="hrg"><button class="pill" data-hr="1h">1 jam</button><button class="pill" data-hr="6h">6 jam</button><button class="pill on" data-hr="24h">24 jam</button><button class="pill" data-hr="7d">7 hari</button><button class="pill" data-hr="14d">14 hari</button></div></div>
+  <svg class="ch" id="hch" viewBox="0 0 720 300" role="img" aria-label="Grafik riwayat ketinggian air"></svg>
+  <div class="hlg"><span><i style="background:#4f8cff"></i>Rata-rata</span><span><i class="bd" style="background:#4f8cff"></i>Rentang terendah-tertinggi</span><span><i style="background:#eab308"></i>Waspada</span><span><i style="background:#f97316"></i>Siaga</span><span><i style="background:#ef4444"></i>Awas</span></div>
+  <div class="kg" id="hst"></div>
+  <div class="row" style="margin-top:14px"><a class="btn ghost" id="hcsv" href="/api/admin/history.csv?range=24h" download><svg class="i"><use href="#i-save"/></svg>Unduh CSV</a><span class="m">Riwayat disimpan 14 hari dalam ringkasan per 5 menit (terendah, tertinggi, rata-rata). Garis putus berarti alat tidak mengirim data.</span></div></div>
+</section>
+
+<section class="pg" id="p_kal">
+ <div class="card"><div class="card-h"><span class="ico"><svg class="i"><use href="#i-zap"/></svg></span><div><h2>Preset cepat</h2><p>Pilih sesuai alat Anda, lalu simpan. Nilai tetap bisa diubah.</p></div></div>
+  <div class="preset"><button class="pre" data-pre="sungai"><span class="ico"><svg class="i"><use href="#i-wave"/></svg></span><span><b>Sungai</b><small>Dasar 400, waspada 150, siaga 250, awas 320 cm. Contoh awal, sesuaikan dengan data lokal.</small></span></button>
+  <button class="pre" data-pre="maket"><span class="ico"><svg class="i"><use href="#i-cpu"/></svg></span><span><b>Maket tinwall 17 x 11 x 7,5 cm (skala 1:20)</b><small>Dasar 200, waspada 50, siaga 90, awas 120 cm nyata (= 10 / 2,5 / 4,5 / 6 cm di maket). Sensor 10 cm di atas dasar tinwall.</small></span></button></div></div>
+ <div class="card"><div class="card-h"><span class="ico"><svg class="i"><use href="#i-sliders"/></svg></span><div><h2>Ambang utama</h2><p>Tinggi air dalam cm (nyata, bukan cm maket).</p></div></div><div class="g2" id="f-basic"></div></div>
+ <div class="card"><div class="card-h"><span class="ico"><svg class="i"><use href="#i-gauge"/></svg></span><div><h2>Kalibrasi dasar otomatis (tangki kosong)</h2><p>Kosongkan tangki/sungai, tunggu air tenang, lalu klik. Jarak dasar diambil dari bacaan sensor sekarang (median 12 bacaan terakhir) dan langsung dikirim ke alat.</p></div></div><div class="row"><button class="btn" id="cb"><svg class="i"><use href="#i-gauge"/></svg>Tangki kosong: jadikan bacaan sekarang sebagai dasar</button><span class="m" id="cbr"></span></div></div>
+ <div class="card"><div class="card-h"><span class="ico"><svg class="i"><use href="#i-gauge"/></svg></span><div><h2>Bantuan jarak dasar</h2><p>Ukur tinggi air sebenarnya sekarang, lalu hitung dari bacaan sensor terakhir.</p></div></div><div class="row"><input type="number" id="hm" placeholder="Tinggi air manual (cm)" style="max-width:230px"><button class="btn ghost" id="hb">Hitung jarak dasar</button><span class="m" id="hr"></span></div></div>
+ <div class="card"><div class="card-h"><span class="ico"><svg class="i"><use href="#i-act"/></svg></span><div><h2>Simulasi level</h2><p>Geser untuk melihat level dari ambang di atas (tidak menyimpan).</p></div></div><input type="range" id="sl" min="0" max="500" value="0" style="width:100%"><div class="row" style="margin-top:8px"><b id="sv1">0 cm</b><span class="lvp" id="sv2"><i class="dot"></i><span>NORMAL</span></span></div></div>
+ <details class="card"><summary><span class="ico"><svg class="i"><use href="#i-sliders"/></svg></span>Pengaturan lanjutan <small>nilai bawaan sudah sesuai</small><svg class="i chev"><use href="#i-chev"/></svg></summary><div class="g2" id="f-adv"></div></details>
+</section>
+
+<section class="pg" id="p_not">
+ <div class="card"><div class="card-h"><span class="ico"><svg class="i"><use href="#i-chat"/></svg></span><div><h2>WhatsApp</h2><p id="wa_sub"></p></div></div>
+  <div id="f-prov"></div>
+  <div id="wa_bail" hidden>
+   <div class="row"><span class="badge" id="wb_st">-</span><span class="m" id="wb_me"></span></div>
+   <div class="qrbox" id="wb_qr" hidden><img id="wb_img" alt="Kode QR WhatsApp" width="220" height="220"><div><b>Pindai dengan ponsel</b><p class="m" style="margin-top:4px">WhatsApp di ponsel &gt; Setelan &gt; <b>Perangkat tertaut</b> &gt; Tautkan perangkat, lalu arahkan ke kode ini. Kode berganti sekitar tiap 20 detik; bila kedaluwarsa tunggu kode baru muncul.</p></div></div>
+   <div class="row" style="margin:10px 0"><button type="button" class="btn" id="wb_go"><svg class="i"><use href="#i-play"/></svg>Hubungkan (tampilkan QR)</button><button type="button" class="btn ghost" id="wb_out"><svg class="i"><use href="#i-logout"/></svg>Putuskan dan hapus sesi</button></div>
+   <p class="m" id="wb_err" style="margin-bottom:8px"></p>
+   <div class="note wn"><svg class="i"><use href="#i-alert"/></svg><span>Baileys memakai WhatsApp Web secara <b>tidak resmi</b>; nomor bisa dibatasi atau diblokir WhatsApp. Pakai <b>nomor khusus</b> (bukan nomor pribadi), jangan kirim massal, dan biarkan cadangan Fonnte aktif untuk peringatan penting.</span></div>
+  </div>
+  <div class="g2" style="margin-top:10px"><div id="f-wa1"></div><div id="f-wa2"></div></div>
+  <div class="row" style="margin-top:6px"><button class="btn ghost" id="gl1"><svg class="i"><use href="#i-list"/></svg>Ambil daftar grup</button><button class="btn ghost" id="gl2"><svg class="i"><use href="#i-refresh"/></svg>Perbarui daftar dari WhatsApp</button><button class="btn" data-t="wa"><svg class="i"><use href="#i-send"/></svg>Tes WhatsApp</button></div>
+  <div class="glist" id="gl"></div></div>
+ <details class="card"><summary><span class="ico"><svg class="i"><use href="#i-send"/></svg></span>Telegram (cadangan, opsional)<svg class="i chev"><use href="#i-chev"/></svg></summary><div class="g2" id="f-tg"></div><div class="row"><button class="btn ghost" data-t="tg"><svg class="i"><use href="#i-send"/></svg>Tes Telegram</button></div></details>
+ <div class="card"><div class="card-h"><span class="ico"><svg class="i"><use href="#i-cal"/></svg></span><div><h2>Pesan dan jadwal</h2><p>Pesan dikirim saat level berubah, ditambah laporan harian.</p></div></div>
+  <div class="g2"><div><div id="f-daily"></div></div><div id="f-msg"></div></div>
+  <p class="m" style="margin:6px 0 10px">Contoh pesan:</p><div class="bub" id="pv"></div></div>
+ <div class="card"><div class="card-h"><span class="ico"><svg class="i"><use href="#i-chat"/></svg></span><div><h2>Template pesan WhatsApp</h2><p>Ubah bentuk pesan. Isian dalam kurung kurawal diganti nilai nyata saat dikirim. Klik isian untuk menyisipkannya di kotak yang terakhir diketik.</p></div></div>
+  <div class="row" style="margin-bottom:12px"><span class="m">Gaya siap pakai:</span><button type="button" class="btn ghost sm" data-tpreset="standar">Standar</button><button type="button" class="btn ghost sm" data-tpreset="ringkas">Ringkas</button><button type="button" class="btn ghost sm" data-tpreset="tegas">Tegas</button><span class="m">mengisi keenam template; klik Simpan perubahan untuk memakainya.</span></div>
+  <div class="phs" id="phs"></div><div id="f-tpl"></div>
+  <p class="m">Berlaku untuk pesan level, laporan harian, dan alat tidak mengirim data. Template kosong kembali ke bawaan. Template AWAS wajib memuat {tindakan} atau kata "evakuasi". Pesan sensor rusak dan alat kembali online tetap bentuk standar. Tanda *teks* membuat huruf tebal di WhatsApp.</p></div>
+ <div class="card"><div class="card-h"><span class="ico"><svg class="i"><use href="#i-bot"/></svg></span><div><h2>Asisten AI</h2><p>Opsional. Hanya merapikan bahasa penjelasan; tidak dipakai pada level AWAS.</p></div></div>
+  <div id="f-ai1"></div><div class="g2" id="f-ai2"></div><div id="f-ai3"></div>
+  <div class="row"><button class="btn ghost" id="aib"><svg class="i"><use href="#i-play"/></svg>Tes AI</button></div><div class="out" id="aio"></div></div>
+ <div class="card"><div class="card-h"><span class="ico"><svg class="i"><use href="#i-chat"/></svg></span><div><h2>Tanya jawab banjir</h2><p>Warga mengetik <b>TANYA ...</b> di grup. Perlu kunci AI dan webhook Fonnte (tab Koneksi).</p></div></div>
+  <div id="f-qa1"></div><div id="f-qa2"></div><div class="row" style="margin-bottom:12px"><button class="btn ghost sm" id="kbx"><svg class="i"><use href="#i-book"/></svg>Isi contoh panduan</button></div>
+  <div class="row"><input type="text" id="qq" placeholder="Coba pertanyaan, mis. titik kumpul di mana?" style="max-width:360px"><button class="btn ghost" id="qab"><svg class="i"><use href="#i-play"/></svg>Tes tanya jawab</button></div><div class="out" id="qao"></div></div>
+</section>
+
+<section class="pg" id="p_kon">
+ <div class="card" id="wz"><div class="card-h"><span class="ico"><svg class="i"><use href="#i-cpu"/></svg></span><div><h2>Hubungkan alat</h2><p>Pilih alat, isi jaringan, lalu salin pengaturan ke alat. Halaman ini otomatis mengenali saat alat tersambung. Kata sandi Wi-Fi hanya diproses di browser ini, tidak dikirim ke server.</p></div><span class="badge" id="wzb">Belum tersambung</span></div>
+  <div class="wzs"><b>1</b>Pilih jenis alat</div>
+  <div class="dvg"><button type="button" class="dvc on" data-dv="sungai"><div class="dvimg"><span class="ico"><svg class="i"><use href="#i-wave"/></svg></span></div><div class="dvt"><b>Sungai (ESP32)</b><small>Sensor A02YYUW tahan air, LED dan sirine. Pengaturan berupa berkas config.h.</small></div></button>
+  <button type="button" class="dvc" data-dv="maket"><div class="dvimg"><span class="ico"><svg class="i"><use href="#i-cpu"/></svg></span></div><div class="dvt"><b>Maket (ESP8266)</b><small>HC-SR04 dan pompa air. Pengaturan berupa berkas konfigurasi.h, diisi sekali.</small></div></button></div>
+  <div class="wzs"><b>2</b>Jaringan dan alamat server</div>
+  <div class="g2"><div class="fd"><label for="wz_ssid">Nama Wi-Fi (SSID)</label><input id="wz_ssid" type="text" autocomplete="off" placeholder="mis. Hotspot-Desa"><small>Harus 2,4 GHz. ESP32/ESP8266 tidak bisa 5 GHz.</small></div>
+  <div class="fd"><label for="wz_pass">Kata sandi Wi-Fi</label><input id="wz_pass" type="text" autocomplete="off"></div>
+  <div class="fd"><label for="wz_url">Alamat server (diisi di alat)</label><input id="wz_url" type="text" autocomplete="off" spellcheck="false"><div class="chips" id="wz_chips"></div></div>
+  <div class="fd"><label for="wz_id">ID alat</label><input id="wz_id" type="text" autocomplete="off" value="node-1"><small>Bebas, tampil di Ringkasan.</small></div></div>
+  <div id="wz_warn"></div>
+  <div class="wzs"><b>3</b>Kunci alat dan pengaturan</div>
+  <div class="row"><button type="button" class="btn" id="wz_gen"><svg class="i"><use href="#i-key"/></svg>Buat kunci alat baru</button><span class="m">atau tempel kunci yang sudah Anda simpan:</span><input id="wz_key" type="text" autocomplete="off" spellcheck="false" placeholder="kunci alat" style="max-width:260px"></div>
+  <p class="m" style="margin-top:6px">Kunci hanya bisa dilihat sekali, saat dibuat. Membuat kunci baru mematikan kunci lama: alat yang sudah terpasang perlu diunggah ulang.</p>
+  <pre id="wz_out" style="margin-top:10px"></pre>
+  <div class="row"><button type="button" class="btn ghost" id="wz_cp"><svg class="i"><use href="#i-copy"/></svg>Salin</button><button type="button" class="btn ghost" id="wz_dl"><svg class="i"><use href="#i-save"/></svg><span id="wz_dln">Unduh config.h</span></button></div>
+  <div class="note" id="wz_how"></div>
+  <div class="wzs"><b>4</b>Tunggu alat tersambung</div><div id="wz_live"></div></div>
+
+ <div class="g2" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr))">
+  <div class="card" id="wfc"><div class="card-h"><span class="ico"><svg class="i"><use href="#i-wifi"/></svg></span><div><h2>Wi-Fi alat</h2><p id="wfs">-</p></div><button class="btn ghost" id="wfscan" style="margin-left:auto"><svg class="i"><use href="#i-refresh"/></svg>Cari Wi-Fi</button></div>
+   <div id="wfl"></div>
+   <div class="g2"><div><label class="m" for="wfn">Nama Wi-Fi</label><input id="wfn" maxlength="32" autocomplete="off" placeholder="pilih dari daftar atau ketik"></div><div><label class="m" for="wfp">Sandi Wi-Fi (kosongkan bila terbuka)</label><input id="wfp" type="password" maxlength="64" autocomplete="new-password"></div></div>
+   <div class="row"><button class="btn" id="wfgo"><svg class="i"><use href="#i-send"/></svg>Pakai Wi-Fi ini</button></div><p class="m" id="wfr" role="status"></p>
+   <p class="m"><b>Cara kerja:</b> alat harus online. Wi-Fi baru <b>dicoba dulu</b> dan baru disimpan di alat bila alat benar-benar tersambung dan server membalas. Bila gagal dalam sekitar 45 detik (sandi salah, sinyal lemah), alat kembali ke Wi-Fi lama sendiri. Sandi dikirim lewat broker/server ke alat dan <b>tidak disimpan di server</b>; pakai broker ber-TLS (port 8883) bila lewat internet. <b>Alat tidak punya Wi-Fi sama sekali?</b> Sambungkan HP ke hotspot <code>SIAGA-SETUP</code> milik alat (sandi bawaan <code>siaga-setup</code>) lalu buka <code>192.168.4.1</code>; hotspot itu muncul sendiri bila Wi-Fi putus 40 detik.</p></div>
+  <div class="card" id="stgc"><div class="card-h"><span class="ico"><svg class="i"><use href="#i-info"/></svg></span><div><h2>Pengaturan yang sudah tersimpan</h2><p>Apa yang tersimpan, di mana, dan cara mengubahnya. Yang bertanda <b>tanpa compile</b> bisa diubah dari dashboard.</p></div></div><div id="stg"></div></div>
+  <div class="card"><div class="card-h"><span class="ico"><svg class="i"><use href="#i-wifi"/></svg></span><h2>Status sambungan</h2></div><div id="chk"></div></div>
+ </div>
+ <div class="card"><div class="card-h"><span class="ico"><svg class="i"><use href="#i-book"/></svg></span><div><h2>Cara mengonlinekan</h2><p>Hubungkan hardware ke software.</p></div></div>
+ <details class="dd" open><summary>A. Demo dengan hotspot HP<svg class="i chev"><use href="#i-chev"/></svg></summary><ol><li>Hidupkan hotspot HP pada band <b>2,4 GHz</b>, nama dan kata sandi sederhana, matikan hemat daya hotspot.</li><li>Sambungkan komputer server ke hotspot yang sama, lalu cari IP komputer (<code>ipconfig</code> di Windows, <code>ip a</code> di Linux/Mac).</li><li>Izinkan port 3001 di firewall.</li><li>Isi <code>SERVER_URL "http://IP-KOMPUTER:3001"</code>, Wi-Fi, dan kunci alat di alat, lalu unggah.</li><li>Tunggu: status "Alat terhubung" di kotak kiri menjadi hijau dalam satu menit.</li></ol></details>
+ <details class="dd"><summary>B. Online publik (VPS atau Cloudflare Tunnel)<svg class="i chev"><use href="#i-chev"/></svg></summary><ol><li><b>Cloudflare Tunnel:</b> <code>cloudflared tunnel --url http://localhost:3001</code> memberi alamat https sementara (berubah tiap dijalankan; untuk tetap, buat tunnel bernama).</li><li><b>VPS:</b> pasang Node.js 18+, jalankan server sebagai layanan, pasang HTTPS (misalnya Caddy), dan jalankan dengan <code>TRUST_PROXY=1</code>.</li><li>Isi <code>SERVER_URL "https://alamat-anda"</code> di alat. Jangan membuka port 3001 langsung ke internet.</li></ol></details>
+ <details class="dd"><summary>C. Di lokasi sungai (MiFi/router 4G atau Wi-Fi desa)<svg class="i chev"><use href="#i-chev"/></svg></summary><ul><li>Sambungkan alat ke Wi-Fi MiFi/router 4G; server harus di alamat publik (cara B).</li><li>HTTPS memakai kuota lebih besar daripada HTTP.</li><li>Tanpa internet, WhatsApp tidak terkirim, tetapi lampu dan sirine lokal tetap bekerja.</li></ul></details>
+ <details class="dd"><summary>D. Webhook WhatsApp (STATUS dan TANYA)<svg class="i chev"><use href="#i-chev"/></svg></summary>
+  <p><b>Bila memakai Baileys, webhook tidak diperlukan sama sekali</b> (pesan grup diterima langsung oleh server). Bagian ini hanya untuk Fonnte. Webhook adalah alamat server ini yang dipanggil Fonnte setiap ada pesan masuk ke nomor Fonnte Anda. Tanpa webhook, pesan keluar (peringatan, laporan harian) tetap jalan; yang tidak jalan hanya balasan <b>STATUS</b> dan <b>TANYA</b>.</p>
+  <ol><li><b>Server harus bisa dijangkau dari internet lewat HTTPS.</b> Alamat <code>localhost</code> atau IP lokal (192.168.x.x) tidak bisa dijangkau Fonnte. Pakai Cloudflare Tunnel atau VPS (panduan B).</li>
+  <li><b>Pasang kunci webhook di server</b> saat menjalankan: <code>WEBHOOK_KEY=rahasia123 node server/server.js</code> (PowerShell: <code>$env:WEBHOOK_KEY="rahasia123"; node server/server.js</code>). Pilih kata acak yang panjang, bukan "rahasia123". Setelah itu kartu "Webhook STATUS/TANYA" di Status sambungan menjadi hijau.</li>
+  <li><b>Isi URL ini di Fonnte</b> (fonnte.com &gt; Device &gt; pilih perangkat &gt; pengaturan perangkat, kolom <b>Webhook</b>; letak menu bisa berubah, dan bila kolomnya tidak ada cek paket Fonnte Anda):</li></ol>
+  <pre id="wh"></pre>
+  <ol start="4"><li><b>Uji:</b> ketik <code>STATUS</code> di grup warga. Bot harus membalas dalam beberapa detik. Lihat tab Ringkasan &gt; Catatan kejadian: baris bertipe <b>Webhook</b> berarti pesan sampai ke server.</li></ol>
+  <p class="m"><b>Tidak ada baris Webhook:</b> Fonnte tidak menjangkau server (alamat bukan HTTPS publik, tunnel mati, atau URL salah). <b>"key salah":</b> bagian <code>?key=</code> berbeda dengan WEBHOOK_KEY di server. <b>Baris ada tapi tidak dibalas:</b> ID grup di tab Notifikasi belum sama dengan grup tempat Anda mengetik. Bila daftar grup kosong, ID grup yang mengetik STATUS otomatis tampil di daftar grup (bertanda webhook).</p></details>
+ <details class="dd"><summary>F. Hardware dan software saling terhubung (dua arah)<svg class="i chev"><use href="#i-chev"/></svg></summary>
+  <p><b>Arah 1: hardware &rarr; software (alat mengirim data).</b> Alat yang memulai. Tiap interval ia mengirim <code>POST /api/device/telemetry</code> berisi jarak sensor, dengan header <code>X-Device-Key</code>.</p>
+  <ol><li>Alat harus terhubung ke Wi-Fi 2,4 GHz yang punya internet (atau satu jaringan dengan server bila demo).</li><li>Di config.h/.ino: <code>SERVER_URL</code> berisi alamat server persis seperti yang dipakai membuka dashboard ini (tanpa garis miring di akhir), dan <code>DEVICE_KEY</code> sama dengan kunci alat (tab Keamanan).</li><li>Unggah, buka Serial Monitor 115200: harus muncul <b>HTTP 200</b>. Di dashboard, "Alat terhubung" hijau dalam satu menit.</li></ol>
+  <p><b>Arah 2: software &rarr; hardware (server memerintah alat).</b> Server tidak bisa menghubungi alat langsung, karena alat ada di belakang router/hotspot. Jadi perintah <b>dititipkan di balasan</b> setiap kiriman alat:</p>
+  <ul><li><b>Ambang, jarak dasar, interval:</b> ubah di tab Kalibrasi lalu Simpan. Alat menerima angka baru pada kiriman berikutnya (paling lama satu interval: 5 detik maket, 60 detik sungai) dan menyimpannya.</li><li><b>Pompa maket:</b> di Ringkasan, <b>Isi sampai target</b> (pompa berhenti sendiri di tinggi itu; wadah dikosongkan dengan tangan setelah demo) atau Nyalakan/Matikan manual. Lewat MQTT perintah sampai seketika; lewat HTTP alat membacanya pada kiriman berikutnya. Nyalakan manual kedaluwarsa setelah 120 detik, dan alat punya pengaman sendiri.</li><li><b>Online lewat MQTT:</b> isi <code>MQTT_URL</code>, <code>MQTT_USER</code>, <code>MQTT_PASS</code> di server dan <code>PAKAI_MQTT 1</code> di alat; kartu "MQTT (broker)" di Status sambungan harus hijau. Panduan: <code>TUTORIAL.md</code>.</li><li>Bila alat offline, perintah tidak sampai. Alat tetap memakai angka terakhir yang tersimpan dan tetap menyalakan LED/sirine lokal.</li></ul>
+  <p class="m">Jadi "mengonlinekan" cukup satu hal: pastikan alat bisa menembak alamat server (arah 1). Arah 2 otomatis ikut berjalan lewat jalur yang sama.</p></details>
+ <details class="dd"><summary>G. Alat dan server online bersamaan, otomatis saat listrik hidup<svg class="i chev"><use href="#i-chev"/></svg></summary><ol>
+  <li><b>Server di tempat yang hidup terus:</b> mini-PC, STB Armbian atau Raspberry Pi di balai desa, atau VPS murah. Laptop hanya untuk demo.</li>
+  <li><b>Jalan otomatis saat menyala:</b> Linux pakai layanan systemd (contoh <code>deploy/siaga-banjir.service</code>); Windows pakai Task Scheduler "At startup" atau pm2. Dengan ini server hidup sendiri setelah mati lampu.</li>
+  <li><b>Online tanpa membuka port:</b> Cloudflare Tunnel <i>bernama</i> yang dipasang sebagai layanan (alamat tetap), atau Caddy di VPS. Isi <code>SERVER_URL</code> di alat dengan alamat itu.</li>
+  <li><b>Urutan menyalakan tidak penting:</b> alat mencoba menyambung ulang Wi-Fi tiap 10-15 detik dan mengirim ulang tiap interval, jadi boleh menyalakan alat atau server lebih dulu.</li>
+  <li><b>Cek bersamaan:</b> kartu Status sambungan di atas hijau semua (Server hidup, Alat terhubung, WhatsApp, Folder data). Bila "Sudah berjalan" selalu kembali ke nol, server mati-hidup sendiri.</li>
+  <li><b>Listrik:</b> alat, router/hotspot, dan komputer server perlu cadangan daya (UPS atau power bank) agar tetap online saat banjir. Tanpa internet, LED dan sirine lokal tetap bekerja.</li></ol><p class="m">Langkah lengkap dan contoh berkas ada di docs/ONLINE.md.</p></details>
+ <details class="dd"><summary>E. Bila alat tidak terhubung<svg class="i chev"><use href="#i-chev"/></svg></summary><ul><li><b>HTTP -1:</b> alat tidak menjangkau server (Wi-Fi 5 GHz, SERVER_URL salah, firewall, isolasi klien hotspot).</li><li><b>HTTP 401:</b> kunci alat berbeda dengan di server.</li><li><b>Sering putus:</b> hotspot mati sendiri, sinyal lemah, daya kurang (tambah kapasitor).</li><li><b>Sensor tidak membaca:</b> periksa kabel, catu, dan jarak minimal.</li></ul></details></div>
+</section>
+
+<section class="pg" id="p_sec">
+ <div class="card"><div class="card-h"><span class="ico"><svg class="i"><use href="#i-shield"/></svg></span><div><h2>Sekali dimasukkan, tidak bisa dilihat lagi</h2><p>Token disimpan terenkripsi; kata sandi dan kunci alat disimpan sebagai hash. Bila lupa, buat yang baru.</p></div></div></div>
+ <div class="card"><div class="card-h"><span class="ico"><svg class="i"><use href="#i-lock"/></svg></span><h2>Ganti kata sandi admin</h2></div><div class="g2"><div class="fd"><label for="po">Kata sandi lama</label><input id="po" type="password" autocomplete="current-password"></div><div class="fd"><label for="pn">Kata sandi baru (min. 8 karakter)</label><input id="pn" type="password" autocomplete="new-password"></div><div class="fd"><label for="pn2">Ulangi kata sandi baru</label><input id="pn2" type="password" autocomplete="new-password"></div></div><div class="row" style="margin-top:14px"><button class="btn" id="pwb"><svg class="i"><use href="#i-save"/></svg>Ganti kata sandi</button></div></div>
+ <div class="card"><div class="card-h"><span class="ico"><svg class="i"><use href="#i-key"/></svg></span><div><h2>Kunci alat</h2><p>Kunci baru mematikan yang lama dan hanya tampil sekali. Salin ke config.h lalu unggah ulang ke alat.</p></div></div><div class="row"><button class="btn ghost" id="kgb"><svg class="i"><use href="#i-refresh"/></svg>Buat kunci alat baru</button></div><pre id="kgk" hidden></pre><button class="btn ghost sm" id="kgc" hidden><svg class="i"><use href="#i-copy"/></svg>Salin kunci</button></div>
+</section>
+
+</div></div></div>
+<div class="savebar" id="sb" hidden><span><svg class="i"><use href="#i-info"/></svg>Ada perubahan yang belum disimpan</span><div class="row"><button class="btn ghost" id="cancel">Batalkan</button><button class="btn" id="save"><svg class="i"><use href="#i-save"/></svg>Simpan perubahan</button></div></div>
+<div id="toast"></div>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const I=(n,c)=>`<svg class="i ${c||''}"><use href="#i-${n}"/></svg>`;
+const LB=['NORMAL','WASPADA','SIAGA','AWAS'],CL=['#22c55e','#eab308','#f97316','#ef4444'];
+const ACT=['Kondisi aman.','Linmas memantau sungai. Warga tetap tenang.','Siapkan tas siaga dan angkat barang ke tempat tinggi.','EVAKUASI sekarang ke titik kumpul.'];
+const PW=['fonnte_token','tg_token','ai_key'];
+const PRESET={sungai:{lokasi:'Titik Pantau Sungai',base:400,waspada:150,siaga:250,awas:320,laju:90,hys:3,notif_delta:20,notif_gap:5,offline:10},maket:{lokasi:'Maket Desa',base:200,waspada:50,siaga:90,awas:120,laju:100000,hys:3,notif_delta:20,notif_gap:1,offline:10}};
+const TITLES={mon:['Ringkasan','Kondisi sungai dan alat secara langsung'],rir:['Riwayat','Grafik ketinggian air dari waktu ke waktu'],kal:['Kalibrasi','Atur ambang dan parameter pengukuran'],not:['Notifikasi','WhatsApp, jadwal pesan, dan asisten AI'],kon:['Koneksi','Hubungkan alat dan WhatsApp ke server'],sec:['Keamanan','Kata sandi dan kunci alat']};
+const TYPES={level:'Level',hook:'Webhook',wa:'WhatsApp',tg:'Telegram',dry:'WA belum diset',ai:'AI',daily:'Harian',offline:'Alat',sensor:'Sensor',auth:'Akun',pump:'Pompa',mqtt:'MQTT',wifi:'Wi-Fi',error:'Galat'};
+let S=null,CN=null,HL=null,hlT=0,dirty=false,loaded=false,rng=150,HD=null,hrg='24h',hlast=0,lastTpl=null;
+
+const fld=(k,l,t,h,x)=>`<div class="fd"><label for="d_${k}">${l}</label><input id="d_${k}" data-k="${k}" type="${t}" ${x||''} autocomplete="off">${h?`<small>${h}</small>`:''}</div>`;
+const pwf=(k,l,h)=>`<div class="fd"><label for="d_${k}">${l}</label><div class="inl"><input id="d_${k}" data-k="${k}" type="password" autocomplete="off"><button type="button" class="btn ghost sm" data-del="${k}">${I('trash')}Hapus</button></div><small>${h||''}</small></div>`;
+const sw=(k,l,h)=>`<label class="sw"><input type="checkbox" id="d_${k}" data-k="${k}"><i></i><span><b>${l}</b>${h?`<small>${h}</small>`:''}</span></label>`;
+const sel=(k,l,o)=>`<div class="fd"><label for="d_${k}">${l}</label><select id="d_${k}" data-k="${k}">${o.map(x=>`<option value="${x[0]}">${x[1]}</option>`).join('')}</select></div>`;
+const dl=(c,t)=>`<i class="dot" style="background:${c}"></i>${t}`;
+$('#f-basic').innerHTML=fld('lokasi','Nama lokasi','text','Tampil di dashboboard dan pesan'.replace('dashboboard','dashboard'))+fld('base','Jarak sensor ke dasar sungai (cm)','number','Ukur saat air kosong','step="any"')+fld('waspada',dl(CL[1],'Ambang WASPADA (cm)'),'number','','step="any"')+fld('siaga',dl(CL[2],'Ambang SIAGA (cm)'),'number','','step="any"')+fld('awas',dl(CL[3],'Ambang AWAS (cm)'),'number','','step="any"');
+$('#f-adv').innerHTML=fld('hys','Pembacaan aman untuk turun level','number','Mencegah level naik-turun terus','step="1"')+fld('interval','Interval ukur alat sungai (detik)','number','Alat maket memakai 5 detik tetap','step="1"')+fld('notif_delta','Kirim pembaruan bila air naik lagi sebesar (cm)','number','Di level yang sama. Level naik selalu langsung dikirim.','step="any"')+fld('notif_gap','Jeda minimum antar pesan non-darurat (menit)','number','0 = tanpa jeda. Tidak menunda kenaikan level.','step="1"')+fld('offline','Alat dianggap mati setelah (menit)','number','','step="1"')+fld('laju','Naik cepat dianggap AWAS (cm/jam)','number','Isi 100000 untuk mematikan','step="any"')+sw('siren','Sirine lokal aktif pada AWAS');
+$('#f-wa1').innerHTML=pwf('fonnte_token','Token Fonnte','Tersimpan terenkripsi dan tidak bisa dilihat lagi. Dengan Baileys, diisi hanya bila ingin cadangan.');
+$('#f-wa2').innerHTML=fld('wa_target','ID grup WhatsApp','text','Pilih dari daftar di bawah, atau isi manual. Beberapa grup: pisahkan dengan koma.');
+$('#f-prov').innerHTML=sel('wa_provider','Penyedia WhatsApp',[['fonnte','Fonnte (layanan pihak ketiga, perlu token)'],['baileys','Baileys (langsung dari server ini, scan QR)']])+sw('wa_fallback','Cadangan lewat Fonnte','Bila Baileys terputus, pesan dikirim lewat Fonnte (perlu token Fonnte di bawah).');
+$('#f-tg').innerHTML=pwf('tg_token','Token bot Telegram')+fld('tg_chat','ID chat Telegram','text');
+$('#f-daily').innerHTML=sw('daily_on','Laporan harian','Satu pesan ringkas per hari. Dilewati saat level WASPADA ke atas.')+fld('daily_time','Jam kirim (WIB)','time');
+$('#f-msg').innerHTML=fld('pesan_tambahan','Kalimat penutup pesan (opsional)','text','Kosongkan agar pesan tetap ringkas.')+sw('emoji','Simbol emoji di pesan WhatsApp','WhatsApp tidak bisa menampilkan ikon vektor. Matikan untuk teks polos.');
+$('#f-ai1').innerHTML=sw('ai_on','Aktifkan penjelasan oleh AI','Untuk level NORMAL, WASPADA, dan SIAGA.');
+$('#f-ai2').innerHTML=sel('ai_provider','Penyedia',[['groq','Groq'],['gemini','Google Gemini']])+fld('ai_model','Nama model (kosongkan = bawaan)','text')+pwf('ai_key','Kunci API','Tersimpan terenkripsi.')+sel('ai_lang','Bahasa',[['id','Indonesia'],['jv','Indonesia + Jawa']]);
+$('#f-ai3').innerHTML=sw('ai_label','Tandai penjelasan AI','Menambahkan tulisan "(penjelasan dibuat AI)".');
+$('#f-qa1').innerHTML=sw('qa_on','Aktifkan tanya jawab','Warga bertanya dengan: TANYA ..., menyebut nomor bot, atau membalas pesan bot (Baileys). Jawaban dikirim sebagai balasan yang mengutip pertanyaan.')+`<div class="g2">`+fld('qa_gap','Jeda per orang (detik)','number','Orang yang sama tidak dilayani lagi sebelum jeda ini selesai.','step="1"')+fld('qa_budget','Batas pertanyaan dijawab AI per jam','number','Pertanyaan yang sama dalam 10 menit memakai jawaban tersimpan (tidak dihitung).','step="1"')+`</div>`;
+$('#f-qa2').innerHTML=`<div class="fd"><label for="d_kb">Panduan desa (titik kumpul, jalur, nomor Linmas/BPBD)</label><textarea id="d_kb" data-k="kb" rows="5" maxlength="1500" placeholder="Titik kumpul: Balai Desa.&#10;Jalur evakuasi: jalan utama ke arah utara.&#10;Linmas: 0812-0000-0000"></textarea><small>AI hanya boleh memakai isi ini untuk nama tempat dan nomor telepon.</small></div>`;
+
+function toast(t,k){const d=document.createElement('div');d.className='toast '+(k||'ok');d.innerHTML=I(k==='er'?'alert':'check')+`<span>${esc(t)}</span>`;$('#toast').append(d);setTimeout(()=>d.remove(),3800)}
+async function api(p,o){const r=await fetch(p,{method:o?'POST':'GET',headers:o?{'Content-Type':'application/json'}:{},body:o?JSON.stringify(o):undefined});if(r.status===401){location.href='/login';throw 0}return r.json()}
+const ago=t=>{if(!t)return'belum ada';const s=Math.round((Date.now()-t)/1e3);return s<90?s+' dtk lalu':s<5400?Math.round(s/60)+' mnt lalu':Math.round(s/3600)+' jam lalu'};
+const dur=s=>s>3600?(Math.round(s/360)/10)+' jam':Math.round(s/60)+' mnt';
+const val=k=>{const e=$('#d_'+k);return e?e.value:''};
+function setDirty(v){dirty=v;$('#sb').hidden=!v}
+function setVals(o){for(const k in o){const e=$('#d_'+k);if(e)e.value=o[k]}setDirty(true);sim();preview()}
+function populate(){const c=S.config;$$('[data-k]').forEach(e=>{const k=e.dataset.k;if(PW.includes(k)){e.value='';e.placeholder=c[k]?'Tersimpan (tidak dapat dilihat). Ketik untuk mengganti.':'Belum diisi'}else if(e.type==='checkbox')e.checked=!!c[k];else e.value=c[k]==null?'':c[k]});loaded=true;setDirty(false);sim();preview()}
+function lvOf(h,w,s,a){return h>=a?3:h>=s?2:h>=w?1:0}
+function sim(){const w=+val('waspada'),s=+val('siaga'),a=+val('awas');$('#sl').max=Math.round((a||300)*1.4);const h=+$('#sl').value,l=lvOf(h,w,s,a);$('#sv1').textContent=h+' cm';const e=$('#sv2');e.style.setProperty('--lc',CL[l]);e.lastElementChild.textContent=LB[l]}
+function preview(){const em=$('#d_emoji').checked,x=val('pesan_tambahan');$('#pv').innerHTML=`${em?`<i class="dot" style="background:${CL[2]}"></i>`:''}<b>SIAGA</b> - ${esc(val('lokasi'))}<br>Tinggi air: ${esc(val('siaga')||250)} cm (naik, 40 cm/jam)<br>${ACT[2]}${x?'<br>'+esc(x):''}<br><span class="m">18.42 WIB</span>`;tplPrevAll()}
+
+function tank(){const c=S.config,h=S.state.hs?S.state.hs.h:0,mx=c.awas*1.25,Y=v=>200-Math.max(0,Math.min(v,mx))/mx*180,l=S.state.level,col=CL[l];
+ const ln=(v,cl,n)=>`<line x1="34" x2="146" y1="${Y(v)}" y2="${Y(v)}" stroke="${cl}" stroke-dasharray="4 3"/><text x="2" y="${Y(v)+4}" font-size="10" fill="${cl}">${n}</text>`;
+ $('#tk').innerHTML=`<defs><linearGradient id="wg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${col}" stop-opacity=".95"/><stop offset="1" stop-color="${col}" stop-opacity=".5"/></linearGradient></defs><rect x="34" y="20" width="112" height="180" rx="12" fill="none" stroke="currentColor" stroke-opacity=".25" stroke-width="2"/><rect x="36" y="${Y(h)}" width="108" height="${200-Y(h)}" rx="10" fill="url(#wg)" style="transition:all .8s"/>`+ln(c.waspada,CL[1],'W')+ln(c.siaga,CL[2],'S')+ln(c.awas,CL[3],'A')+`<text x="90" y="222" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">${S.state.hs?Math.round(h)+' cm':'-'}</text>`}
+function draw(){const R=S.readings.slice(-rng),c=S.config,svg=$('#ch');if(R.length<2){svg.innerHTML='<text x="24" y="50" fill="currentColor" fill-opacity=".5" font-size="14">Menunggu data dari alat...</text>';return}
+ const W=720,H=240,pl=46,pr=14,pt=14,pb=26,mx=Math.max(c.awas*1.15,...R.map(r=>r.h)),mn=Math.min(0,...R.map(r=>r.h)),t0=R[0].t,t1=R[R.length-1].t,X=t=>pl+(t-t0)/Math.max(t1-t0,1)*(W-pl-pr),Y=v=>H-pb-(v-mn)/(mx-mn)*(H-pt-pb);
+ let g='';for(let i=0;i<=4;i++){const v=mn+(mx-mn)*i/4;g+=`<line x1="${pl}" x2="${W-pr}" y1="${Y(v)}" y2="${Y(v)}" stroke="currentColor" stroke-opacity=".1"/><text x="${pl-8}" y="${Y(v)+4}" text-anchor="end" font-size="11" fill="currentColor" fill-opacity=".55">${Math.round(v)}</text>`}
+ const th=(v,cl,n)=>`<line x1="${pl}" x2="${W-pr}" y1="${Y(v)}" y2="${Y(v)}" stroke="${cl}" stroke-dasharray="5 4"/><text x="${W-pr-4}" y="${Y(v)-5}" text-anchor="end" font-size="11" fill="${cl}">${n} ${v}</text>`;
+ const pts=R.map(r=>X(r.t).toFixed(1)+','+Y(r.h).toFixed(1)).join(' '),last=R[R.length-1],tm=t=>new Date(t).toLocaleTimeString('id-ID',{hour12:false,hour:'2-digit',minute:'2-digit'});
+ svg.innerHTML=`<defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4f8cff" stop-opacity=".4"/><stop offset="1" stop-color="#4f8cff" stop-opacity="0"/></linearGradient></defs>${g}${th(c.waspada,CL[1],'waspada')}${th(c.siaga,CL[2],'siaga')}${th(c.awas,CL[3],'awas')}<polygon points="${X(t0)},${Y(mn)} ${pts} ${X(t1)},${Y(mn)}" fill="url(#ag)"/><polyline points="${pts}" fill="none" stroke="#4f8cff" stroke-width="2.4" stroke-linejoin="round"/><circle cx="${X(last.t)}" cy="${Y(last.h)}" r="4.5" fill="#4f8cff"/><text x="${pl}" y="${H-6}" font-size="11" fill="currentColor" fill-opacity=".55">${tm(t0)}</text><text x="${W-pr}" y="${H-6}" text-anchor="end" font-size="11" fill="currentColor" fill-opacity=".55">${tm(t1)}</text>`}
+
+function setup(){const s=S.state,c=S.config,wa=S.events.some(e=>e.type==='wa'&&/Fonnte 200|Baileys terkirim/.test(e.text));
+ const st=[[!!s.lastSeen,'Hubungkan alat','Alat mengirim data ke server. Isi config.h dari tab Koneksi.','kon','Buka Koneksi'],[localStorage.getItem('siaga_cal')==='1','Periksa kalibrasi','Pilih preset lalu simpan, atau ubah ambang sesuai sungai Anda.','kal','Buka Kalibrasi'],[!!((c.wa_provider==='baileys'?S.wa&&S.wa.state==='terhubung':c.fonnte_token)&&c.wa_target),'Hubungkan WhatsApp','Pilih penyedia (Fonnte atau Baileys), hubungkan, lalu pilih grup warga.','not','Buka Notifikasi'],[wa,'Kirim pesan uji','Pastikan pesan masuk ke grup.','test','Tes WhatsApp']];
+ const n=st.filter(x=>x[0]).length;$('#sp').textContent=n+'/4';$('#sbar').style.width=n*25+'%';
+ $('#setup').hidden=n===4||localStorage.getItem('siaga_hide')==='1';
+ $('#steps').innerHTML=st.map(x=>`<div class="st ${x[0]?'done':''}"><div class="c">${x[0]?I('check'):''}</div><div><b>${x[1]}</b><small>${x[2]}</small></div>${x[0]?'':`<button class="btn ghost sm" data-go="${x[3]}">${x[4]}</button>`}</div>`).join('')}
+function go(p){$$('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.p===p));$$('.pg').forEach(x=>x.classList.toggle('on',x.id==='p_'+p));$('#ttl').textContent=TITLES[p][0];$('#sub').textContent=TITLES[p][1];$('#bn').classList.toggle('tall',p==='mon');if(p==='kon'){loadHealth();conn();wzBuild()}if(p==='rir')loadHist();scrollTo(0,0)}
+function conn(){if(!S)return;const s=S.state,c=S.config,d=s.dev||{},age=s.lastSeen?Date.now()-s.lastSeen:1e12,live=age<(c.interval*2+30)*1e3,https=location.protocol==='https:';
+ const it=(st,t,sub)=>`<div class="chk"><div class="c ${st}">${I(st==='ok'?'check':st==='er'?'x':'alert')}</div><div><b>${t}</b><small>${sub}</small></div></div>`;
+ $('#chk').innerHTML=it('ok','Server berjalan','Dashboard ini aktif.')+it(live?'ok':s.lastSeen?'er':'wn','Alat terhubung',s.lastSeen?`Terakhir ${ago(s.lastSeen)}${d.ip==='mqtt'?' lewat MQTT':d.ip?' dari '+esc(d.ip):''}${d.fw?', firmware '+esc(d.fw):''}`:'Belum pernah mengirim data. Ikuti panduan A.')+it(s.hs&&s.errN<3?'ok':'wn','Sensor membaca',s.hs&&S.readings.length?`Bacaan terakhir ${S.readings[S.readings.length-1].d} cm`:'Belum ada bacaan.')+waItem(it)+it(c.tg_token&&c.tg_chat?'ok':'wn','Telegram (cadangan)',c.tg_token&&c.tg_chat?'Terisi.':'Belum diisi (opsional).')+(c.wa_provider==='baileys'?it('ok','Webhook STATUS/TANYA','Tidak diperlukan: Baileys menerima pesan grup langsung.'):it(CN&&CN.webhook?'ok':'wn','Webhook STATUS/TANYA',CN&&CN.webhook?'Aktif di server.':'Nonaktif (opsional, panduan D).'))+it(https?'ok':'wn','Alamat server',https?'HTTPS aman.':'HTTP: cocok untuk jaringan lokal/demo. Untuk internet gunakan HTTPS.')+healthItems(it);
+ $('#wh').textContent=location.origin+'/webhook/fonnte?key=ISI_WEBHOOK_KEY'+(location.protocol==='https:'?'':'\n(alamat ini HTTP/lokal: belum bisa dipakai Fonnte, lihat langkah 1)')}
+
+async function tick(){try{S=await api('/api/admin/state')}catch(e){return}
+ if(!CN)try{CN=await api('/api/admin/connection')}catch(e){}
+ const s=S.state,c=S.config,h=s.hs,l=s.level,d=s.dev||{},age=s.lastSeen?Date.now()-s.lastSeen:1e12,live=age<(c.interval*2+30)*1e3,off=s.lastSeen&&Date.now()-s.lastSeen>c.offline*6e4;
+ $('#cn').innerHTML=`<i class="dot" style="background:${live?'#22c55e':off?'#ef4444':'#eab308'}"></i><span>${live?'Alat online':s.lastSeen?'Alat tidak mengirim':'Belum ada alat'}</span>`;
+ $('#hero').style.setProperty('--lc',CL[l]);$('#lv').textContent=LB[l];$('#hh').textContent=h?Math.round(h.h)+' cm':'- cm';$('#lact').textContent=c.lokasi+'. '+ACT[l];
+ const lj=h?Math.round(h.lj):0;$('#tr').innerHTML=h?(lj===0?'Stabil':(lj>0?I('up'):I('up','dn'))+(lj>0?'Naik':'Turun')):'Belum ada data';
+ $('#k2').textContent=h?lj+' cm/jam':'-';const lr=S.readings[S.readings.length-1];$('#k3').textContent=lr?lr.d+' cm':'-';$('#k4').textContent=d.rssi?d.rssi+' dBm':'-';$('#k5').textContent=ago(s.lastSeen);$('#k6').textContent=d.up?dur(d.up):'-';$('#k7').textContent=d.id?d.id+(d.fw?' v'+d.fw:''):'-';
+ const noP=d.pump===undefined;$$('#pumpc button,#pumpc input').forEach(x=>x.disabled=noP);const pc=s.pumpCmd||{},pm=pc.pump_mode;$('#pst').textContent=noP?'Alat belum melapor pompa (belum tersambung, atau bukan maket). Kontrol aktif otomatis begitu maket online.':'Di alat: '+(d.pump?'menyala (mengisi)':'mati')+'. '+(pm==='TARGET'?'Perintah: isi sampai '+(pc.target_lvl?LB[pc.target_lvl]:Math.round(pc.target_m*100)+' cm')+'.':pm==='MANUAL'?'Perintah: nyala manual.':'Tidak ada perintah.');wifiUi();stgUi();
+ tank();draw();setup();if($('#p_rir').classList.contains('on')&&Date.now()-hlast>15000)loadHist();
+ $('#ev').innerHTML=S.events.length?S.events.map(e=>`<tr><td>${new Date(e.t).toLocaleString('id-ID',{hour12:false,day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit',second:'2-digit'})}</td><td><span class="tag">${esc(TYPES[e.type]||e.type)}</span></td><td>${esc(e.text)}</td></tr>`).join(''):'<tr><td colspan="3" class="m">Belum ada kejadian.</td></tr>';
+ if(!loaded)populate();renderWa();banner();if($('#p_kon').classList.contains('on')){if(Date.now()-hlT>15000)loadHealth();conn();wzLive()}}
+
+// ---------- template pesan ----------
+const TPLS=[['tpl_normal','Level NORMAL'],['tpl_waspada','Level WASPADA'],['tpl_siaga','Level SIAGA'],['tpl_awas','Level AWAS'],['tpl_daily','Laporan harian'],['tpl_offline','Alat tidak mengirim data']];
+const PHD=[['lokasi','nama lokasi'],['level','NORMAL/WASPADA/SIAGA/AWAS'],['emoji','lingkaran warna level'],['tinggi','tinggi air (cm)'],['tren','naik/turun/stabil'],['laju','cm per jam'],['tindakan','kalimat tindakan'],['penutup','kalimat penutup'],['waktu','tanggal dan jam'],['min24','terendah 24 jam'],['max24','tertinggi 24 jam'],['alat','status alat'],['menit','batas menit offline']];
+$('#phs').innerHTML=PHD.map(x=>`<button type="button" class="btn ghost sm" data-ph="{${x[0]}}" title="${esc(x[1])}">{${x[0]}}</button>`).join('');
+$('#f-tpl').innerHTML=TPLS.map(([k,l])=>`<div class="fd tplb"><label for="d_${k}">${l}</label><textarea id="d_${k}" data-k="${k}" rows="11" maxlength="600" spellcheck="false"></textarea><div class="bub tpv" id="pv_${k}"></div><div class="row"><button type="button" class="btn ghost sm" data-treset="${k}">${I('refresh')}Kembalikan bawaan</button><button type="button" class="btn ghost sm" data-tsend="${k}">${I('send')}Kirim contoh ke grup</button></div></div>`).join('');
+const EMOJI_RE=/[\u{1F000}-\u{1FFFF}\u{2190}-\u{21FF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE0F}\u{200D}]/gu;
+function tplSample(k){const i=Math.max(0,['tpl_normal','tpl_waspada','tpl_siaga','tpl_awas'].indexOf(k)),h=[60,180,280,340][i],lj=[0,20,40,120][i],lo=val('lokasi')||'Titik Pantau Sungai';
+ if(k==='tpl_daily')return{lokasi:lo,level:'SIAGA',emoji:'\u0001',tinggi:260,min24:120,max24:270,alat:'online',waktu:'11/11/2026, 18.42'};
+ if(k==='tpl_offline')return{lokasi:lo,menit:+val('offline')||10,waktu:'11/11/2026, 18.42'};
+ return{lokasi:lo,level:LB[i],emoji:'\u0001',tinggi:h,tren:lj>5?'naik':'stabil',laju:lj,tindakan:ACT[i],penutup:val('pesan_tambahan'),waktu:'11/11/2026, 18.42'}}
+function tplRender(t,v){return t.split('\n').map(line=>{const o=/^\s*\{(\w+)\}\s*$/.exec(line),r=line.replace(/\{(\w+)\}/g,(m,k)=>k in v?String(v[k]):m);return o&&v[o[1]]!==undefined&&!String(v[o[1]]).length?null:r}).filter(x=>x!==null).join('\n').replace(/\n{3,}/g,'\n\n').trim()}
+function tplPrev(k){const el=$('#pv_'+k),ta=$('#d_'+k);if(!el||!ta)return;let t=tplRender(ta.value||(S&&S.tplDefaults?S.tplDefaults[k]:''),tplSample(k));const em=$('#d_emoji')?$('#d_emoji').checked:true;if(!em)t=t.replace(EMOJI_RE,'').replace(/\u0001/g,'').replace(/^[ \t]+|[ \t]+$/gm,'');
+ const lv=Math.max(0,['tpl_normal','tpl_waspada','tpl_siaga','tpl_awas'].indexOf(k)),dot=k==='tpl_daily'?CL[2]:CL[lv];
+ el.innerHTML=esc(t).replace(/\u0001/g,`<i class="dot" style="background:${dot}"></i>`).replace(/\*([^*\n]+)\*/g,'<b>$1</b>')}
+function tplPrevAll(){TPLS.forEach(t=>tplPrev(t[0]))}
+document.addEventListener('focusin',e=>{if(e.target.dataset&&/^tpl_/.test(e.target.dataset.k||''))lastTpl=e.target});
+document.addEventListener('input',e=>{if(e.target.dataset&&/^tpl_/.test(e.target.dataset.k||''))tplPrev(e.target.dataset.k)});
+document.addEventListener('click',async e=>{const b=e.target.closest('[data-ph],[data-treset],[data-tsend],[data-tpreset]');if(!b)return;
+ if(b.dataset.tpreset){const o=S&&S.tplPresets&&S.tplPresets[b.dataset.tpreset];if(o){setVals(o);toast('Gaya '+b.dataset.tpreset+' diisi. Periksa pratinjau, lalu klik Simpan perubahan.')}return}
+ if(b.dataset.ph){const t=lastTpl||$('#d_tpl_siaga'),a=t.selectionStart==null?t.value.length:t.selectionStart,z=t.selectionEnd==null?a:t.selectionEnd;t.value=t.value.slice(0,a)+b.dataset.ph+t.value.slice(z);t.focus();t.selectionStart=t.selectionEnd=a+b.dataset.ph.length;t.dispatchEvent(new Event('input',{bubbles:true}))}
+ else if(b.dataset.treset){if(S&&S.tplDefaults){setVals({[b.dataset.treset]:S.tplDefaults[b.dataset.treset]});toast('Template dikembalikan ke bawaan. Klik Simpan perubahan.')}}
+ else{const k=b.dataset.tsend,j=await api('/api/admin/tpl-test',{which:k.slice(4),text:val(k)});toast(j.ok?'Contoh dikirim: '+j.wa:j.error,j.ok&&j.wa==='ok'?'ok':'er');tick()}});
+// ---------- riwayat ketinggian air ----------
+const RLB={'1h':'1 jam','6h':'6 jam','24h':'24 jam','7d':'7 hari','14d':'14 hari'};
+const wt=(t,o)=>new Date(t).toLocaleString('id-ID',{timeZone:'Asia/Jakarta',hour12:false,...o});
+async function loadHist(){hlast=Date.now();let d;try{d=await api('/api/admin/history?range='+hrg)}catch(e){return}if(d.range!==hrg)return;HD=d;drawHist();histStats()}
+function histStats(){const st=HD&&HD.stats,box=$('#hst');if(!st){box.innerHTML='';return}
+ const k=(ic,l,v,sub)=>`<div class="k"><span>${I(ic)}${l}</span><b>${v}</b>${sub?`<small class="m" style="display:block">${sub}</small>`:''}</div>`,tf={day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'};
+ box.innerHTML=k('up','Tertinggi',st.max+' cm',wt(st.maxAt,tf))+k('gauge','Terendah',st.min+' cm',wt(st.minAt,tf))+k('act','Rata-rata',st.avg+' cm','rentang '+RLB[HD.range])+k('list','Jumlah bacaan',st.n,'dalam rentang ini')+k('clock','Sekarang',S&&S.state.hs?Math.round(S.state.hs.h)+' cm':'-','')}
+function drawHist(){const svg=$('#hch');if(!HD||HD.points.length<2){svg.innerHTML=`<text x="24" y="60" fill="currentColor" fill-opacity=".55" font-size="14">${HD&&HD.points.length===1?'Baru ada satu bacaan pada rentang ini.':'Belum ada riwayat pada rentang ini. Data muncul setelah alat mengirim.'}</text>`;return}
+ const P=HD.points,c=S?S.config:{waspada:150,siaga:250,awas:320},W=720,H=300,pl=46,pr=14,pt=16,pb=34,mx=Math.max(c.awas*1.1,...P.map(p=>p.max)),mn=Math.min(0,...P.map(p=>p.min)),t0=P[0].t,t1=P[P.length-1].t,
+ X=t=>pl+(t-t0)/Math.max(t1-t0,1)*(W-pl-pr),Y=v=>H-pb-(v-mn)/(mx-mn)*(H-pt-pb),gap=Math.max(HD.step*4,150000),long=HD.range==='7d'||HD.range==='14d';
+ let g='';for(let i=0;i<=4;i++){const v=mn+(mx-mn)*i/4;g+=`<line x1="${pl}" x2="${W-pr}" y1="${Y(v)}" y2="${Y(v)}" stroke="currentColor" stroke-opacity=".1"/><text x="${pl-8}" y="${Y(v)+4}" text-anchor="end" font-size="11" fill="currentColor" fill-opacity=".55">${Math.round(v)}</text>`}
+ for(let i=0;i<=4;i++){const t=t0+(t1-t0)*i/4,lb=long?wt(t,{day:'2-digit',month:'short'}):wt(t,{hour:'2-digit',minute:'2-digit'})+(t1-t0>864e5?' '+wt(t,{day:'2-digit'}):'');g+=`<text x="${X(t)}" y="${H-10}" text-anchor="${i===0?'start':i===4?'end':'middle'}" font-size="11" fill="currentColor" fill-opacity=".55">${lb}</text>`}
+ const th=(v,cl,n)=>`<line x1="${pl}" x2="${W-pr}" y1="${Y(v)}" y2="${Y(v)}" stroke="${cl}" stroke-dasharray="5 4"/><text x="${W-pr-4}" y="${Y(v)-5}" text-anchor="end" font-size="11" fill="${cl}">${n} ${v}</text>`;
+ const runs=[];let cur=[];P.forEach((p,i)=>{if(i&&p.t-P[i-1].t>gap){runs.push(cur);cur=[]}cur.push(p)});runs.push(cur);
+ let band='',line='';for(const r of runs){if(r.length<2){line+=`<circle cx="${X(r[0].t)}" cy="${Y(r[0].avg)}" r="3" fill="#4f8cff"/>`;continue}
+  const top=r.map(p=>X(p.t).toFixed(1)+','+Y(p.max).toFixed(1)),bot=r.slice().reverse().map(p=>X(p.t).toFixed(1)+','+Y(p.min).toFixed(1));
+  band+=`<polygon points="${top.concat(bot).join(' ')}" fill="#4f8cff" fill-opacity=".18"/>`;line+=`<polyline points="${r.map(p=>X(p.t).toFixed(1)+','+Y(p.avg).toFixed(1)).join(' ')}" fill="none" stroke="#4f8cff" stroke-width="2.2" stroke-linejoin="round"/>`}
+ svg.innerHTML=g+th(c.waspada,CL[1],'waspada')+th(c.siaga,CL[2],'siaga')+th(c.awas,CL[3],'awas')+band+line+`<g id="hx" visibility="hidden" pointer-events="none"><line id="hxl" y1="${pt}" y2="${H-pb}" stroke="currentColor" stroke-opacity=".35"/><circle id="hxc" r="4.5" fill="#4f8cff" stroke="#fff" stroke-width="1.5"/><rect id="hxr" rx="6" width="170" height="40" fill="#0f172a" fill-opacity=".92"/><text id="hxt1" font-size="11" fill="#cbd5e1"/><text id="hxt2" font-size="12.5" font-weight="700" fill="#fff"/></g><rect id="hov" x="${pl}" y="${pt}" width="${W-pl-pr}" height="${H-pt-pb}" fill="transparent"/>`;
+ const hov=$('#hov'),hx=$('#hx'),mv=ev=>{const bb=svg.getBoundingClientRect(),cx=((ev.touches?ev.touches[0].clientX:ev.clientX)-bb.left)*W/bb.width;let b=P[0],bd=1e9;for(const p of P){const d=Math.abs(X(p.t)-cx);if(d<bd){bd=d;b=p}}
+  const x=X(b.t),y=Y(b.avg),rx=x>W/2?x-180:x+10;hx.setAttribute('visibility','visible');$('#hxl').setAttribute('x1',x);$('#hxl').setAttribute('x2',x);$('#hxc').setAttribute('cx',x);$('#hxc').setAttribute('cy',y);
+  $('#hxr').setAttribute('x',rx);$('#hxr').setAttribute('y',Math.max(pt,Math.min(y-48,H-pb-44)));const ty=+$('#hxr').getAttribute('y');$('#hxt1').setAttribute('x',rx+10);$('#hxt1').setAttribute('y',ty+16);$('#hxt2').setAttribute('x',rx+10);$('#hxt2').setAttribute('y',ty+33);
+  $('#hxt1').textContent=wt(b.t,{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})+' WIB';$('#hxt2').textContent=b.avg+' cm'+(b.max!==b.min?` (${b.min} - ${b.max})`:'')};
+ hov.addEventListener('mousemove',mv);hov.addEventListener('touchmove',mv,{passive:true});hov.addEventListener('touchstart',mv,{passive:true});hov.addEventListener('mouseleave',()=>hx.setAttribute('visibility','hidden'))}
+$$('[data-hr]').forEach(b=>b.onclick=()=>{hrg=b.dataset.hr;$$('#hrg .pill').forEach(x=>x.classList.toggle('on',x===b));$('#hcsv').href='/api/admin/history.csv?range='+hrg;loadHist()});
+// ---------- spanduk ----------
+function banner(){if(!S)return;const s=S.state,c=S.config,h=s.hs,l=s.level,live=s.lastSeen&&Date.now()-s.lastSeen<(c.interval*2+30)*1e3,b=$('#bn');b.style.setProperty('--lc',CL[l]);$('#bnl').textContent=c.lokasi;$('#bnh').textContent=h?Math.round(h.h)+' cm':'- cm';$('#bnlv').textContent=LB[l];
+ $('#bnd').textContent=new Date().toLocaleDateString('id-ID',{timeZone:'Asia/Jakarta',weekday:'long',day:'numeric',month:'long',year:'numeric'})+' - '+(live?'alat online':s.lastSeen?'alat tidak mengirim data':'belum ada alat')}
+// ---------- kesiapan online ----------
+async function loadHealth(){hlT=Date.now();try{HL=await api('/api/admin/health')}catch(e){return}wzChips();wzBuild()}
+function healthItems(it){if(!HL)return'';const up=HL.uptime<3600?Math.max(1,Math.round(HL.uptime/60))+' menit':(Math.round(HL.uptime/360)/10)+' jam';
+ return it('ok','Server hidup',`Sudah berjalan ${up} (Node ${esc(HL.node)}). Bila angka ini sering kembali ke nol, server mati-hidup sendiri: pasang jalan otomatis (panduan G).`)+it(HL.writable?'ok':'er','Folder data',HL.writable?'Bisa ditulis: riwayat dan pengaturan tersimpan.':'TIDAK bisa ditulis: riwayat dan pengaturan akan hilang. Periksa izin folder.')
+ +(location.protocol==='https:'&&!HL.trustProxy?it('wn','Di belakang proxy HTTPS','Jalankan server dengan TRUST_PROXY=1 agar pembatas percobaan login memakai IP asli pengunjung.'):'')+mqttItem(it)}
+function mqttItem(it){const m=HL&&HL.mqtt;if(!m||!m.enabled)return'';return m.connected?it('ok','MQTT (broker)',`Tersambung ke ${esc(m.host)}. Alat menerbitkan ke <code>${esc(m.prefix)}/ID-ALAT/telemetry</code>; ${m.rx?m.rx+' pesan alat diterima.':'belum ada pesan alat (periksa konfigurasi.h dan Serial Monitor).'}`):it('er','MQTT (broker)',`Belum tersambung ke ${esc(m.host||'broker')}. ${esc(m.error||'Menunggu...')} Panduan: TUTORIAL.md.`)}
+function waItem(it){const c=S.config,w=S.wa||{};if(c.wa_provider==='baileys'){const ok=w.state==='terhubung';return it(ok&&c.wa_target?'ok':ok?'wn':'er','WhatsApp (Baileys)',ok?(c.wa_target?'Terhubung'+(w.me?' sebagai +'+esc(w.me):'')+', grup terisi.':'Terhubung, tetapi grup belum dipilih (tab Notifikasi).'):esc((w.err||WAL[w.state]||'Belum terhubung')+'. Buka tab Notifikasi dan scan QR.'))}
+ return it(c.fonnte_token&&c.wa_target?'ok':'wn','WhatsApp (Fonnte)',c.fonnte_token&&c.wa_target?'Token dan grup terisi.':'Isi token dan grup di tab Notifikasi.')}
+// ---------- panel WhatsApp (Baileys) ----------
+const WAL={mati:'Belum dihidupkan',memulai:'Memulai...','menunggu-scan':'Menunggu scan QR',terhubung:'Terhubung',terputus:'Terputus, menyambung ulang',keluar:'Sesi keluar, scan ulang',galat:'Galat'};let lastWa='';
+function renderWa(){if(!S)return;const w=S.wa||{state:'mati'},b=val('wa_provider')==='baileys';$('#wa_bail').hidden=!b;$('#gl2').hidden=b;
+ $('#wa_sub').textContent=b?'Baileys: server ini tersambung langsung ke WhatsApp lewat scan QR. Tanpa Fonnte dan tanpa webhook.':'Fonnte: dua isian saja, token dan grup. Grup bisa dipilih dari daftar.';
+ const st=$('#wb_st');st.textContent=WAL[w.state]||w.state;st.style.color=w.state==='terhubung'?'var(--ok)':w.state==='galat'||w.state==='keluar'?'var(--bad)':'var(--warn)';$('#wb_me').textContent=w.me?'Nomor: +'+w.me:'';
+ $('#wb_qr').hidden=!(w.state==='menunggu-scan'&&w.qr);if(w.qr)$('#wb_img').src=w.qr;$('#wb_err').textContent=w.err||'';
+ if(b&&w.state==='terhubung'&&lastWa!=='terhubung'&&$('#p_not').classList.contains('on'))grp(false);lastWa=w.state}
+document.addEventListener('change',e=>{if(e.target.id==='d_wa_provider')renderWa()});
+$('#wb_go').onclick=async()=>{let j;try{j=await api('/api/admin/wa/start',{})}catch(e){return}S.wa=j.wa;renderWa();if(val('wa_provider')!=='baileys')toast('Pilih Baileys di Penyedia WhatsApp lalu Simpan perubahan agar pesan dikirim lewat Baileys.');for(let i=0;i<4;i++){await sleep(1500);await tick()}};
+$('#wb_out').onclick=async()=>{if(!confirm('Putuskan WhatsApp dan hapus sesi? Untuk menyambung lagi harus scan QR ulang.'))return;try{const j=await api('/api/admin/wa/stop',{logout:true});S.wa=j.wa;renderWa();toast('Sesi dihapus.')}catch(e){}};
+// ---------- wizard Hubungkan alat ----------
+const WZ={type:'sungai',key:''},qs=x=>x.replace(/\\/g,'\\\\').replace(/"/g,'\\"'),WZID={sungai:'node-1',maket:'maket-01'};
+const isLocal=h=>/^(localhost|127\.|0\.0\.0\.0|\[?::1)/.test(h),isPriv=h=>/^(10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.)/.test(h)||isLocal(h)||/\.local$/.test(h);
+function wzChips(){const base=[];if(HL)HL.lan.forEach(ip=>base.push('http://'+ip+':'+HL.port));if(!isLocal(location.hostname))base.unshift(location.origin);
+ $('#wz_chips').innerHTML=base.length?base.map(u=>`<button type="button" class="pill" data-wu="${esc(u)}">${esc(u)}</button>`).join(''):'';if(!$('#wz_url').value){const f=base[0]||location.origin;$('#wz_url').value=f}}
+function wzBuild(){const g=id=>$('#'+id).value,ssid=qs(g('wz_ssid')||'NAMA_WIFI'),pw=qs(g('wz_pass')||'PASSWORD_WIFI'),url0=(g('wz_url')||'').trim().replace(/\/+$/,''),url=qs(url0||location.origin),key=qs(WZ.key||g('wz_key').trim()||'KUNCI_ALAT_BELUM_DIBUAT'),id=qs(g('wz_id')||WZID[WZ.type]),sg=WZ.type==='sungai',mq=HL&&HL.mqtt&&HL.mqtt.enabled?HL.mqtt:null,mhost=qs(mq?mq.host.replace(/:\d+$/,''):'ISI-HOST-BROKER.s1.eu.hivemq.cloud'),mport=mq?+(mq.host.split(':')[1]||8883):8883,mpre=qs(mq?mq.prefix:'siaga');
+ $('#wz_out').textContent=sg?`#pragma once\n#define WIFI_SSID  "${ssid}"\n#define WIFI_PASS  "${pw}"\n#define SERVER_URL "${url}"\n#define DEVICE_KEY "${key}"\n#define DEVICE_ID  "${id}"\n#define FW_VERSION "1.0"\n`:`#pragma once\nconst char* WIFI_SSID  = "${ssid}";\nconst char* WIFI_PASS  = "${pw}";\nconst char* DEVICE_KEY = "${key}";\nconst char* DEVICE_ID  = "${id}";\n\n#define PAKAI_MQTT 1   // 0 = HTTP langsung ke SERVER_URL\nconst char*    MQTT_HOST   = "${mhost}";\nconst uint16_t MQTT_PORT   = ${mport};\nconst bool     MQTT_TLS    = ${mport===8883};\nconst char*    MQTT_USER   = "USER_BROKER_ALAT";\nconst char*    MQTT_PASS   = "SANDI_BROKER_ALAT";\nconst char*    MQTT_PREFIX = "${mpre}";\nconst char*    SERVER_URL  = "${url}";`;
+ $('#wz_dln').textContent=sg?'Unduh config.h':'Unduh konfigurasi.h';
+ $('#wz_how').innerHTML=I('info')+'<span>'+(sg?'Simpan sebagai <code>config.h</code> di folder <code>firmware/siaga_node/</code> (sejajar siaga_node.ino). Papan <b>ESP32 Dev Module</b>, library <b>ArduinoJson v7</b>. Unggah, buka Serial Monitor 115200: harus muncul <code>kirim -&gt; HTTP 200</code>.':'Simpan sebagai berkas <code>konfigurasi.h</code> di folder <code>firmware/desa_siaga_banjir/</code> (menggantikan isi yang ada). <b>JANGAN ditempel ke dalam berkas .ino</b>, itu penyebab error "redefinition of ...". Wi-Fi di sini hanya nilai awal: ganti kemudian dari kartu "Wi-Fi alat" tanpa compile ulang. Lalu isi <code>MQTT_USER</code> dan <code>MQTT_PASS</code> dengan kredensial broker <b>khusus alat</b> (pembuatannya: <code>TUTORIAL.md</code>). Papan <b>NodeMCU 1.0 (ESP-12E)</b>, library <b>ArduinoJson v7</b> dan <b>PubSubClient</b>. Unggah, buka Serial Monitor 115200: harus muncul <code>MQTT tersambung</code>. Lalu di tab Kalibrasi klik <b>Isi preset maket</b> dan Simpan.')+'</span>';
+ const w=[],h=url0.replace(/^https?:\/\//,'').replace(/[:/].*$/,'');if(!g('wz_ssid'))w.push(['wn','Isi nama Wi-Fi 2,4 GHz yang akan dipakai alat.']);
+ if(/^https?:\/\//.test(url0)&&isLocal(h))w.push(['er','"localhost" hanya benar di komputer ini; alat tidak bisa menjangkaunya. Pilih IP komputer di jaringan yang sama dengan alat (tombol di bawah kolom alamat) atau alamat https publik.']);
+ else if(/^http:\/\//.test(url0)&&!isPriv(h))w.push(['wn','Alamat http di internet tidak terenkripsi: kunci alat terkirim terbuka. Gunakan alamat https.']);
+ else if(/^https:\/\//.test(url0))w.push(['ok','https: kunci alat terkirim terenkripsi. Alat memakai https tanpa memeriksa sertifikat agar ringan (setInsecure).']);
+ else if(/^http:\/\//.test(url0))w.push(['ok','Alamat jaringan lokal: cocok untuk demo; komputer server dan alat harus di Wi-Fi yang sama dan port '+(HL?HL.port:'server')+' diizinkan di firewall.']);
+ else w.push(['er','Alamat server harus diawali http:// atau https://']);
+ if(!WZ.key&&!g('wz_key').trim())w.push(['wn','Kunci alat belum diisi. Klik "Buat kunci alat baru" atau tempel kunci yang sudah ada.']);
+ $('#wz_warn').innerHTML=w.map(x=>`<div class="note ${x[0]}">${I(x[0]==='ok'?'check':'alert')}<span>${esc(x[1])}</span></div>`).join('')}
+function wzLive(){if(!S)return;const s=S.state,c=S.config,d=s.dev||{},age=s.lastSeen?Date.now()-s.lastSeen:1e12,live=age<(c.interval*2+30)*1e3,ok=live&&s.hs&&s.errN<3;
+ const b=$('#wzb');b.textContent=ok?'Tersambung':live?'Tersambung, sensor bermasalah':s.lastSeen?'Pernah tersambung, kini diam':'Belum tersambung';b.style.color=ok?'var(--ok)':live?'var(--warn)':'var(--muted)';
+ const it=(st,t,sub)=>`<div class="chk"><div class="c ${st}">${I(st==='ok'?'check':st==='er'?'x':'alert')}</div><div><b>${t}</b><small>${sub}</small></div></div>`,lr=S.readings[S.readings.length-1];
+ $('#wz_live').innerHTML=it(live?'ok':s.lastSeen?'er':'wn','Alat mengirim data',live?`Terakhir ${ago(s.lastSeen)}${d.id?', ID '+esc(d.id):''}${d.ip==='mqtt'?' lewat MQTT':d.ip?' dari '+esc(d.ip):''}${d.fw?', firmware '+esc(d.fw):''}`:s.lastSeen?`Terakhir ${ago(s.lastSeen)}. Periksa daya dan Wi-Fi alat.`:'Menunggu kiriman pertama. Biasanya muncul dalam satu menit setelah alat menyala. Bila lama: Serial Monitor "HTTP -1" = alamat/Wi-Fi/firewall, "HTTP 401" = kunci alat berbeda.')
+  +it(ok?'ok':'wn','Sensor membaca',ok&&lr?`Bacaan terakhir ${lr.d} cm, tinggi air ${Math.round(s.hs.h)} cm`:'Belum ada bacaan sensor yang valid.')+it(d.rssi?(d.rssi>-75?'ok':'wn'):'wn','Kekuatan sinyal Wi-Fi',d.rssi?`${d.rssi} dBm${d.rssi>-75?'':' (lemah, dekatkan ke router/hotspot)'}`:'-')}
+$('#wz').addEventListener('input',e=>{if(/^wz_/.test(e.target.id))wzBuild()});
+$('#wz').addEventListener('click',async e=>{const dv=e.target.closest('[data-dv]'),wu=e.target.closest('[data-wu]');
+ if(dv){const old=WZID[WZ.type];WZ.type=dv.dataset.dv;$$('#wz .dvc').forEach(x=>x.classList.toggle('on',x===dv));if(!$('#wz_id').value||$('#wz_id').value===old)$('#wz_id').value=WZID[WZ.type];wzBuild()}
+ if(wu){$('#wz_url').value=wu.dataset.wu;wzBuild()}});
+$('#wz_gen').onclick=async()=>{if(!confirm('Buat kunci alat baru? Kunci lama langsung tidak berlaku; alat yang sudah terpasang harus diunggah ulang dengan kunci baru.'))return;let j;try{j=await api('/api/admin/devicekey',{})}catch(e){return}if(!j.ok){toast('Gagal membuat kunci','er');return}WZ.key=j.key;$('#wz_key').value='';wzBuild();toast('Kunci baru dibuat dan sudah masuk ke teks di bawah. Salin sekarang, kunci tidak ditampilkan lagi.')};
+$('#wz_cp').onclick=async()=>{try{await navigator.clipboard.writeText($('#wz_out').textContent);toast('Tersalin')}catch(e){toast('Salin manual dari kotak (tombol salin hanya di HTTPS/localhost)','er')}};
+$('#wz_dl').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([$('#wz_out').textContent],{type:'text/plain'}));a.download=WZ.type==='sungai'?'config.h':'konfigurasi.h';document.body.append(a);a.click();a.remove()};
+wzBuild();
+$$('#nav button').forEach(b=>b.onclick=()=>go(b.dataset.p));
+document.addEventListener('click',e=>{const t=e.target.closest('[data-go]');if(!t)return;if(t.dataset.go==='test')return runTest('wa');go(t.dataset.go)});
+$$('[data-r]').forEach(b=>b.onclick=()=>{rng=+b.dataset.r;$$('#rg .pill').forEach(x=>x.classList.toggle('on',x===b));if(S)draw()});
+$('#lo').onclick=async()=>{try{await api('/api/admin/logout',{})}catch(e){}location.href='/login'};
+$('#shide').onclick=()=>{localStorage.setItem('siaga_hide','1');$('#setup').hidden=true};
+document.addEventListener('input',e=>{if(e.target.dataset&&e.target.dataset.k){setDirty(true);sim();preview()}});
+document.addEventListener('change',e=>{if(e.target.dataset&&e.target.dataset.k){setDirty(true);preview()}});
+$('#sl').oninput=sim;
+$('#cb').onclick=async()=>{if(!confirm('Pastikan tangki/sungai KOSONG dan sensor tidak bergerak. Jarak dasar akan diganti dengan bacaan sekarang. Perubahan lain yang belum disimpan di halaman ini ikut dimuat ulang. Lanjutkan?'))return;let j;try{j=await api('/api/admin/calibrate-base',{})}catch(e){return}
+ if(!j.ok){$('#cbr').textContent=j.error;toast(j.error,'er');return}$('#cbr').textContent=`Dasar ${j.old} -> ${j.base} cm (selisih bacaan ${j.spread} cm)`;toast('Dasar disimpan: '+j.base+' cm');loaded=false;await tick()};
+$$('[data-pre]').forEach(b=>b.onclick=()=>{setVals(PRESET[b.dataset.pre]);toast('Preset diterapkan. Klik Simpan perubahan.')});
+$('#cancel').onclick=()=>{populate()};
+$('#save').onclick=async()=>{const o={};$$('[data-k]').forEach(e=>{const k=e.dataset.k;let v=e.type==='checkbox'?e.checked:e.value;if(PW.includes(k))v=v||(S.config[k]?'********':'');o[k]=v});
+ const j=await api('/api/admin/config',o);if(j.ok){toast('Perubahan disimpan. Alat memakai angka baru pada kiriman berikutnya.');localStorage.setItem('siaga_cal','1');loaded=false;await tick()}else toast(j.error||'Gagal menyimpan','er')};
+$$('[data-del]').forEach(b=>b.onclick=async()=>{if(!confirm('Hapus yang tersimpan?'))return;const j=await api('/api/admin/config',{[b.dataset.del]:''});toast(j.ok?'Dihapus.':j.error,j.ok?'ok':'er');loaded=false;tick()});
+$('#hb').onclick=()=>{const r=S&&S.readings[S.readings.length-1],m=parseFloat($('#hm').value);if(!r||isNaN(m)){$('#hr').textContent='Butuh bacaan sensor dan tinggi manual.';return}const b=Math.round((r.d+m)*10)/10;setVals({base:b});$('#hr').textContent=`Jarak dasar = ${r.d} + ${m} = ${b} cm. Klik Simpan perubahan.`};
+async function runTest(ch){toast('Mengirim pesan uji...');const j=await api('/api/admin/test',{channel:ch});const r=ch==='tg'?j.tg:j.wa;toast('Hasil uji '+(ch==='tg'?'Telegram':'WhatsApp')+': '+r,r==='ok'?'ok':'er');tick()}
+$$('[data-t]').forEach(b=>b.onclick=()=>runTest(b.dataset.t));
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+async function grp(refresh){const o=$('#gl');o.innerHTML='<p class="m">Menghubungi Fonnte...'+(refresh?' Pembaruan dari WhatsApp bisa memakan sampai 20 detik.':'')+'</p>';
+ let j;try{j=await api('/api/admin/fonnte-groups',{refresh})}catch(e){return}
+ if(!j.ok){o.innerHTML=`<p class="m" style="color:var(--bad)">${I('alert')} ${esc(j.error)}</p>`;toast(j.error,'er');return}
+ o.innerHTML=j.groups.length?j.groups.map(g=>`<div class="st"><div class="c">${I('chat')}</div><div><b>${esc(g.name||'(tanpa nama)')}</b><small>${esc(g.id)}${g.src==='webhook'?' - tertangkap dari webhook':''}</small></div><button class="btn ghost sm" data-id="${esc(g.id)}">Pakai</button></div>`).join('')+(j.refreshIn?`<p class="m" style="margin-top:8px">Perbarui dari WhatsApp tersedia lagi dalam ${j.refreshIn} menit.</p>`:''):`<p class="m">${I('info')} ${esc(j.hint||'Tidak ada grup ditemukan.')}</p>`;
+ $$('#gl [data-id]').forEach(b=>b.onclick=()=>{setVals({wa_target:b.dataset.id});toast('ID grup terisi. Klik Simpan perubahan.')})}
+$('#gl1').onclick=()=>grp(false);$('#gl2').onclick=()=>{if(confirm('Perbarui daftar grup dari WhatsApp? Lakukan hanya sekali, saat nomor baru masuk grup. Pemakaian berlebihan dapat membuat nomor dibatasi.'))grp(true)};
+$('#aib').onclick=async()=>{const o=$('#aio');o.className='out on';o.textContent='Menghubungi AI...';const j=await api('/api/admin/ai-test',{});o.innerHTML=j.ok?`<small>Contoh penjelasan (SIAGA, 260 cm)</small>${esc(j.text)}`:`${I('alert')} Gagal: ${esc(j.error)}`};
+$('#qab').onclick=async()=>{const o=$('#qao');o.className='out on';o.textContent='Menghubungi AI...';const j=await api('/api/admin/qa-test',{q:$('#qq').value});o.innerHTML=j.ok?`<small>Jawaban</small>${esc(j.text)}`:`${I('alert')} Gagal: ${esc(j.error)}`};
+$('#kbx').onclick=()=>{$('#d_kb').value='Titik kumpul: Balai Desa.\nJalur evakuasi: lewat jalan utama ke arah utara.\nLinmas: 0812-0000-0000';setDirty(true);toast('Contoh diisi. Ubah sesuai desa Anda.')};
+$('#pon').onclick=()=>api('/api/admin/pump',{on:true}).then(tick);$('#poff').onclick=()=>api('/api/admin/pump',{on:false}).then(tick);
+async function isiTarget(o){const r=await api('/api/admin/pump',{mode:'TARGET',...o});$('#pter').textContent=r.ok?'Perintah isi terkirim. Pompa berhenti sendiri di target; kosongkan wadah dengan tangan setelah demo.':(r.error||'Gagal mengirim perintah');tick()}
+let wfKey='';
+function wifiUi(){const w=S.wifi||{},d=S.state.dev||{};
+ $('#wfs').innerHTML=d.ssid?`Sekarang tersambung ke <b>${esc(d.ssid)}</b> (${d.wsrc==='alat'?'tersimpan di alat':'nilai awal dari konfigurasi.h'}).`:S.state.lastSeen?'Nama Wi-Fi belum dilaporkan alat (firmware lama?).':'Alat belum pernah online.';
+ const L=w.list||[],p=w.pending,r=w.result,k=JSON.stringify([w.scanning,L,p,r]);
+ $('#wfscan').disabled=!!w.scanning||!!p;$('#wfgo').disabled=!!p;
+ if(k!==wfKey){wfKey=k;
+  $('#wfl').innerHTML=w.scanning?'<p class="m">Alat sedang memindai jaringan (beberapa detik)...</p>':L.length?L.map(x=>`<button type="button" class="wfi" data-s="${esc(x.s)}"><b>${esc(x.s)}</b><span>${x.r>=-55?'sinyal kuat':x.r>=-70?'sinyal sedang':'sinyal lemah'}${x.e?' · berkunci':' · terbuka'}</span></button>`).join(''):'<p class="m">Klik <b>Cari Wi-Fi</b>: alat memindai jaringan di sekitarnya dan daftarnya muncul di sini.</p>';
+  $$('#wfl .wfi').forEach(b=>b.onclick=()=>{$('#wfn').value=b.dataset.s;$('#wfp').focus()});
+  if(p)$('#wfr').textContent=`Menunggu alat mencoba "${p.ssid}" (maksimal sekitar 1 menit)...`;
+  else if(r)$('#wfr').textContent=r.res==='ok'?`Berhasil: alat kini memakai "${r.ssid}" dan menyimpannya.`:r.res==='gagal'?`Gagal: alat tidak bisa tersambung ke "${r.ssid}" (sandi salah atau sinyal lemah) dan kembali ke Wi-Fi lama.`:`Perintah ke "${r.ssid}" kedaluwarsa (alat tidak membalas).`}}
+$('#wfscan').onclick=async()=>{$('#wfr').textContent='';const r=await api('/api/admin/wifi/scan',{});if(!r.ok)$('#wfr').textContent=r.error||'Gagal';wfKey='';tick()};
+$('#wfgo').onclick=async()=>{const ssid=$('#wfn').value.trim(),pass=$('#wfp').value;if(!ssid){$('#wfr').textContent='Pilih atau ketik nama Wi-Fi dulu.';return}
+ const r=await api('/api/admin/wifi/set',{ssid,pass});$('#wfr').textContent=r.ok?'Perintah terkirim ke alat...':(r.error||'Gagal');if(r.ok)$('#wfp').value='';wfKey='';tick()};
+function stgUi(){const d=S.state.dev||{},c=S.config||{},m=(typeof HL!=='undefined'&&HL&&HL.mqtt)||{},pc=S.state.pumpCmd||{};
+ const rows=[
+  ['Wi-Fi alat',d.ssid?`${esc(d.ssid)}${d.ssidB?' (cadangan: '+esc(d.ssidB)+')':''}`:'belum dilaporkan alat','Memori alat (EEPROM); nilai awal dari konfigurasi.h','<b>Tanpa compile</b>: kartu "Wi-Fi alat" di atas, atau hotspot SIAGA-SETUP milik alat'],
+  ['Broker MQTT di alat',d.mqh?`${esc(d.mqh)} (jalur: ${d.via==='mqtt'?'MQTT':'HTTP'})`:'belum dilaporkan alat','konfigurasi.h di alat','Perlu compile ulang (jarang berubah)'],
+  ['Broker MQTT di server',m.enabled?`${esc(m.host)}, awalan topik ${esc(m.prefix)} (${m.connected?'tersambung':'belum tersambung'})`:'MQTT tidak dipakai di server','Variabel MQTT_URL, MQTT_USER, MQTT_PASS di server','Ubah variabel itu lalu mulai ulang server'],
+  ['ID dan kunci alat',d.id?`ID ${esc(d.id)}; kunci harus sama di alat dan server`:'-','konfigurasi.h di alat dan tab Keamanan di server','Buat kunci baru di Keamanan, isi konfigurasi.h, compile ulang'],
+  ['Kalibrasi dan ambang level',`dasar ${c.base??'-'} cm; WASPADA/SIAGA/AWAS ${c.waspada??'-'}/${c.siaga??'-'}/${c.awas??'-'} cm`,'Server (data.json); alat menyimpan salinannya','<b>Tanpa compile</b>: tab Kalibrasi'],
+  ['Perintah pompa',pc.pump_mode==='TARGET'?'isi sampai '+(pc.target_lvl?LB[pc.target_lvl]:Math.round(pc.target_m*100)+' cm'):pc.pump_mode==='MANUAL'?'nyala manual':'tidak ada','Tidak disimpan (sementara, kedaluwarsa sendiri)','<b>Tanpa compile</b>: kartu "Demo maket" di Ringkasan'],
+  ['Notifikasi WhatsApp dan lainnya','diatur di tab Notifikasi','Server (data.json)','<b>Tanpa compile</b>: tab Notifikasi']];
+ $('#stg').innerHTML=rows.map(r=>`<div class="srow"><b>${r[0]}</b><span>${r[1]}</span><small>Disimpan di: ${r[2]}</small><small>Cara mengubah: ${r[3]}</small></div>`).join('')}
+$('#ptg').onclick=()=>isiTarget({target_cm:+$('#ptc').value});$$('[data-pl]').forEach(b=>b.onclick=()=>isiTarget({target_lvl:+b.dataset.pl}));
+$('#pwb').onclick=async()=>{if($('#pn').value!==$('#pn2').value){toast('Konfirmasi kata sandi tidak sama','er');return}const j=await api('/api/admin/password',{old:$('#po').value,new:$('#pn').value});toast(j.ok?'Kata sandi diganti. Sesi lain dikeluarkan.':j.error,j.ok?'ok':'er');if(j.ok)['#po','#pn','#pn2'].forEach(i=>$(i).value='')};
+$('#kgb').onclick=async()=>{if(!confirm('Buat kunci alat baru? Kunci lama langsung tidak berlaku sampai alat diperbarui.'))return;const j=await api('/api/admin/devicekey',{});if(!j.ok){toast('Gagal','er');return}$('#kgk').hidden=false;$('#kgk').textContent=j.key;$('#kgc').hidden=false;toast('Kunci baru dibuat. Salin sekarang, tidak akan tampil lagi.');$('#kgc').onclick=async()=>{try{await navigator.clipboard.writeText(j.key);toast('Kunci tersalin')}catch(e){toast('Salin manual dari kotak','er')}}};
+setInterval(()=>{$('#clk').textContent=new Date().toLocaleTimeString('id-ID',{hour12:false})+' WIB'},1000);
+go('mon');tick();setInterval(tick,5000);
+</script></body></html>
