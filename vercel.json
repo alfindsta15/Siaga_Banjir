@@ -1,0 +1,12 @@
+﻿{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://siaga-banjir-api.ketupatbot.workers.dev/api/:path*"
+    },
+    {
+      "source": "/healthz",
+      "destination": "https://siaga-banjir-api.ketupatbot.workers.dev/healthz"
+    }
+  ]
+}
